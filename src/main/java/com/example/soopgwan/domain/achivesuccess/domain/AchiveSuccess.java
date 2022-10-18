@@ -20,14 +20,13 @@ import java.time.LocalDate;
 public class AchiveSuccess {
 
     @EmbeddedId
-    private
-    private User user;
+    @JoinColumn(name = "user_id")
+    private UserId userId;
 
     @EmbeddedId
-    @ManyToOne
     @JoinColumn(name = "achive_id")
     @Column(columnDefinition = "BIGINT", nullable = false)
-    private Achive achive;
+    private AchiveId achiveId;
 
     @DateTimeFormat(pattern = "yyyy-MM--dd")
     @Column(columnDefinition = "DATETIME", nullable = false)

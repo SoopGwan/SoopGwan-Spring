@@ -13,8 +13,6 @@ import java.time.LocalDateTime;
 @Entity
 public class Day {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "BIGINT", nullable = false)
     private Long id;
 
     @Column(columnDefinition = "DATETIME", nullable = false)

@@ -14,8 +14,6 @@ import javax.persistence.*;
 public class Achive {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "BIGINT", nullable = false)
     private Long id;
 
     @Column(columnDefinition = "VARCHAR(200)", nullable = false)
@@ -24,7 +22,7 @@ public class Achive {
     @Column(columnDefinition = "VARCHAR(10)", nullable = false)
     private String title;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }

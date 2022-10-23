@@ -1,13 +1,16 @@
-package com.example.soopgwan.domain.achivesuccess.domain;
+package com.example.soopgwan.domain.user.domain;
 
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
+@Getter
 @Embeddable
-@NoArgsConstructor
+@EqualsAndHashCode
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserId implements Serializable {
 
     @Column(columnDefinition = "BIGINT", nullable = false)

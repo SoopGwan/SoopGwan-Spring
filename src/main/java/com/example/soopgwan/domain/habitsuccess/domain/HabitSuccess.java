@@ -1,30 +1,27 @@
 package com.example.soopgwan.domain.habitsuccess.domain;
 
-import com.example.soopgwan.domain.achive.domain.Achive;
-import com.example.soopgwan.domain.habit.domain.Habit;
-import com.example.soopgwan.domain.user.domain.User;
+import com.example.soopgwan.domain.habit.domain.HabitId;
+import com.example.soopgwan.domain.user.domain.UserId;
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Table(name = "tbl_achive_success")
 @Entity
 public class HabitSuccess {
 
     @EmbeddedId
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @Column(columnDefinition = "BIGINT", nullable = false)
-    private User user;
+    private UserId userId;
 
     @EmbeddedId
-    @JoinColumn(name = "habit_id")
-    @Column(columnDefinition = "BIGINT", nullable = false)
-    private Habit habit;
+    private HabitId habitId;
 
     @Column(columnDefinition = "BOOLEAN", nullable = false)
     private boolean success;

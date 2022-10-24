@@ -1,19 +1,30 @@
 package com.example.soopgwan.domain.user.domain;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Table(name = "tbl_user")
+@Entity
 public class User {
 
     @Id
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(columnDefinition = "VARCHAR(24)", nullable = false)
     private String accountId;
@@ -27,7 +38,7 @@ public class User {
     @Column(columnDefinition = "CHAR(11)", nullable = false)
     private String phoneNumber;
 
-    @Column(columnDefinition = "CHAR(3)", nullable = false)
-    private String level;
+    @Column(nullable = false)
+    private Integer level;
 }
  

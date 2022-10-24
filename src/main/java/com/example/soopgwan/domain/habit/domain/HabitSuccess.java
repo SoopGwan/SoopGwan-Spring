@@ -22,7 +22,7 @@ import javax.persistence.Table;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @IdClass(HabitSuccessId.class)
-@Table(name = "tbl_achive_success")
+@Table(name = "tbl_habit_success")
 @Entity
 public class HabitSuccess {
 

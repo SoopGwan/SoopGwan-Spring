@@ -13,7 +13,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
+    // web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
     // mysql
     implementation 'mysql:mysql-connector-java:8.0.30'
@@ -26,9 +27,7 @@ dependencies {
 
     // lombok
     implementation 'org.projectlombok:lombok'
-
-    // test
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    annotationProcessor 'org.projectlombok:lombok'
 
     // redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'

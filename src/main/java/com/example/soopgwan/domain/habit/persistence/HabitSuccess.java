@@ -5,9 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +24,7 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "tbl_habit_success")
 @Entity
 public class HabitSuccess {
@@ -32,8 +36,9 @@ public class HabitSuccess {
     @Column(columnDefinition = "INT", nullable = false)
     private Integer count;
 
+    @CreatedDate
     @Column(columnDefinition = "DATE", nullable = false)
-    private LocalDate successAt = LocalDate.now();
+    private LocalDate successAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "week_habit_id", nullable = false)

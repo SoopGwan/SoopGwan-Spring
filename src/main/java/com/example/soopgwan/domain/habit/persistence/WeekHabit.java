@@ -1,5 +1,6 @@
-package com.example.soopgwan.domain.habit.domain;
+package com.example.soopgwan.domain.habit.persistence;
 
+import com.example.soopgwan.domain.user.persistence.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,9 +9,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDate;
 
@@ -18,9 +22,9 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-@Table(name = "tbl_habit")
+@Table(name = "tbl_week_habit")
 @Entity
-public class Habit {
+public class WeekHabit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,5 +39,10 @@ public class Habit {
     @Column(columnDefinition = "DATE", nullable = false)
     private LocalDate endAt;
 
-    private Long count;
+    @Column(columnDefinition = "INT default 0", nullable = false)
+    private Integer status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

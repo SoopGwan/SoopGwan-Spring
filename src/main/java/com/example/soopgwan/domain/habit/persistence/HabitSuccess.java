@@ -1,15 +1,16 @@
-package com.example.soopgwan.domain.achive.domain;
+package com.example.soopgwan.domain.habit.persistence;
 
-import com.example.soopgwan.domain.user.domain.User;
-import com.example.soopgwan.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,26 +18,29 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@SuperBuilder
-@Table(name = "tbl_achieve")
+@Builder
+@EntityListeners(AuditingEntityListener.class)
+@Table(name = "tbl_habit_success")
 @Entity
-public class Achieve extends BaseTimeEntity {
+public class HabitSuccess {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "VARCHAR(200)", nullable = false)
-    private String unlockCondition;
+    @Column(columnDefinition = "INT", nullable = false)
+    private Integer count;
 
-    @Column(columnDefinition = "VARCHAR(10)", nullable = false)
-    private String title;
+    @CreatedDate
+    @Column(columnDefinition = "DATE", nullable = false)
+    private LocalDate successAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "week_habit_id", nullable = false)
+    private WeekHabit weekHabit;
 }

@@ -1,11 +1,10 @@
-package com.example.soopgwan.domain.user.domain;
+package com.example.soopgwan.domain.user.persistence;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,8 +36,5 @@ public class User {
 
     @Column(columnDefinition = "CHAR(11)", nullable = false)
     private String phoneNumber;
-
-    @Column(nullable = false)
-    private Integer level;
 }
  

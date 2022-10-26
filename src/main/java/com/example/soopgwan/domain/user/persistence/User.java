@@ -1,4 +1,4 @@
-package com.example.soopgwan.domain.habit.domain;
+package com.example.soopgwan.domain.user.persistence;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -8,33 +8,36 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-@IdClass(HabitSuccessId.class)
-@Table(name = "tbl_habit_success")
+@Table(name = "tbl_user")
 @Entity
-public class HabitSuccess {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "habit_id", nullable = false)
-    private Habit habit;
+    @Column(columnDefinition = "VARCHAR(24)", nullable = false)
+    private String accountId;
 
-    @Column(columnDefinition = "BOOLEAN", nullable = false)
-    private Boolean success;
+    @Column(columnDefinition = "CHAR(60)", nullable = false)
+    private String password;
+
+    @Column(columnDefinition = "VARCHAR(10)", nullable = false)
+    private String name;
+
+    @Column(columnDefinition = "CHAR(11)", nullable = false)
+    private String phoneNumber;
+
+    @Column(nullable = false)
+    private Integer level;
 }
+ 

@@ -1,4 +1,4 @@
-package com.example.soopgwan.domain.achive.domain;
+package com.example.soopgwan.domain.habit.persistence;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -10,9 +10,9 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode
-public class AchieveSuccessId implements Serializable {
+public class HabitSuccessId implements Serializable {
 
-    private Long user;
+    private Long id;
 
-    private Long achieve;
+    private Long habit;
 }

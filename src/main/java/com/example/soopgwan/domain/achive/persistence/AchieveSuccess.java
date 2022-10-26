@@ -1,6 +1,6 @@
-package com.example.soopgwan.domain.achive.domain;
+package com.example.soopgwan.domain.achive.persistence;
 
-import com.example.soopgwan.domain.user.domain.User;
+import com.example.soopgwan.domain.user.persistence.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

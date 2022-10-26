@@ -12,16 +12,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-@IdClass(HabitSuccessId.class)
 @Table(name = "tbl_habit_success")
 @Entity
 public class HabitSuccess {
@@ -30,11 +29,13 @@ public class HabitSuccess {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "habit_id", nullable = false)
-    private Habit habit;
+    @Column(columnDefinition = "INT", nullable = false)
+    private Integer count;
 
-    @Column(columnDefinition = "BOOLEAN", nullable = false)
-    private Boolean success;
+    @Column(columnDefinition = "DATE", nullable = false)
+    private LocalDate successAt = LocalDate.now();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "week_habit_id", nullable = false)
+    private WeekHabit weekHabit;
 }

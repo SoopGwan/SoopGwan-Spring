@@ -1,7 +1,5 @@
-package com.example.soopgwan.domain.achive.persistence;
+package com.example.soopgwan.domain.achieve.persistence;
 
-import com.example.soopgwan.domain.user.persistence.User;
-import com.example.soopgwan.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,12 +8,9 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Getter
@@ -24,7 +19,7 @@ import javax.persistence.Table;
 @SuperBuilder
 @Table(name = "tbl_achieve")
 @Entity
-public class Achieve extends BaseTimeEntity {
+public class Achieve {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,8 +30,4 @@ public class Achieve extends BaseTimeEntity {
 
     @Column(columnDefinition = "VARCHAR(10)", nullable = false)
     private String title;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
 }

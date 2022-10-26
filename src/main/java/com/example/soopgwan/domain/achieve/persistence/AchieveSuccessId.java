@@ -1,4 +1,4 @@
-package com.example.soopgwan.domain.achive.persistence;
+package com.example.soopgwan.domain.achieve.persistence;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;

@@ -36,8 +36,5 @@ public class User {
 
     @Column(columnDefinition = "CHAR(11)", nullable = false)
     private String phoneNumber;
-
-    @Column(nullable = false)
-    private Integer level;
 }
  

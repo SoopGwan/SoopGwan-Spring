@@ -1,4 +1,4 @@
-package com.example.soopgwan.domain.achive.persistence;
+package com.example.soopgwan.domain.achieve.persistence;
 
 import com.example.soopgwan.domain.user.persistence.User;
 import lombok.AccessLevel;

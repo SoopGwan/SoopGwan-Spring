@@ -24,7 +24,7 @@ public class ErrorFilter extends OncePerRequestFilter {
         } catch (CustomException e) {
             setErrorResponse(e.getErrorCode(), response);
         } catch (Exception e) {
-            if(e.getCause() instanceof CustomException exception) {
+            if (e.getCause() instanceof CustomException exception) {
                 setErrorResponse(exception.getErrorCode(), response);
             } else {
                 e.printStackTrace();

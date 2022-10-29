@@ -24,11 +24,11 @@ public class JwtTokenProvider {
     private final AuthDetailsService authDetailsService;
     private final JwtProperties jwtProperties;
 
-    public String generateToken(String id) {
+    public String generateToken(String id, String type) {
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                 .setSubject(id)
-                .claim("type", ACCESS_TYPE)
+                .claim("type", type)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getAccessExp() * 1000))
                 .compact();

@@ -1,6 +1,5 @@
 package com.example.soopgwan.global.security.jwt;
 
-import com.example.soopgwan.global.security.auth.AuthDetailsService;
 import com.example.soopgwan.global.security.exception.ExpiredToken;
 import com.example.soopgwan.global.security.exception.InvalidToken;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -21,7 +20,6 @@ public class JwtTokenProvider {
     private static final String ACCESS_TYPE = "access";
     private static final String REFRESH_TYPE = "refresh";
 
-    private final AuthDetailsService authDetailsService;
     private final JwtProperties jwtProperties;
 
     public String generateToken(String id, String type) {
@@ -32,11 +30,6 @@ public class JwtTokenProvider {
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getAccessExp() * 1000))
                 .compact();
-    }
-
-    public Authentication authentication(String token) {
-        UserDetails userDetails = authDetailsService.loadUserByUsername(parseTokenBody(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     public String parseTokenBody(String token) {

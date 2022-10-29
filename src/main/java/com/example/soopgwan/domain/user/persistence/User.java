@@ -1,17 +1,8 @@
 package com.example.soopgwan.domain.user.persistence;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,9 +21,6 @@ public class User {
 
     @Column(columnDefinition = "CHAR(60)", nullable = false)
     private String password;
-
-    @Column(columnDefinition = "VARCHAR(10)", nullable = false)
-    private String name;
 
     @Column(columnDefinition = "CHAR(11)", nullable = false)
     private String phoneNumber;

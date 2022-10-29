@@ -1,5 +1,9 @@
 package com.example.soopgwan.global.security.jwt;
 
+import com.example.soopgwan.global.security.auth.AuthDetailsService;
+import com.example.soopgwan.global.security.exception.ExpiredToken;
+import com.example.soopgwan.global.security.exception.InvaildToken;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +19,9 @@ import java.util.Date;
 public class JwtTokenProvider {
 
     private static final String ACCESS_TYPE = "access";
+    private static final String REFRESH_TYPE = "refresh";
 
-
+    private final AuthDetailsService authDetailsService;
     private final JwtProperties jwtProperties;
 
     public String generateToken(String id) {

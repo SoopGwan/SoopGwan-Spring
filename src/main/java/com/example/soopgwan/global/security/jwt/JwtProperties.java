@@ -13,9 +13,11 @@ public class JwtProperties {
 
     private final String SecretKey;
     private final Long accessExp;
+    private final Long refreshExp;
 
-    public JwtProperties(String secretKey, long accessExp) {
+    public JwtProperties(String secretKey, Long accessExp, Long refreshExp) {
         this.SecretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
         this.accessExp = accessExp;
+        this.refreshExp = refreshExp;
     }
 }

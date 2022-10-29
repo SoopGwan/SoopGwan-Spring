@@ -2,7 +2,7 @@ package com.example.soopgwan.global.security.jwt;
 
 import com.example.soopgwan.global.security.auth.AuthDetailsService;
 import com.example.soopgwan.global.security.exception.ExpiredToken;
-import com.example.soopgwan.global.security.exception.InvaildToken;
+import com.example.soopgwan.global.security.exception.InvalidToken;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -46,7 +46,7 @@ public class JwtTokenProvider {
         } catch (ExpiredJwtException e) {
             throw ExpiredToken.EXCEPTION;
         } catch (Exception e) {
-            throw InvaildToken.EXCEPTION;
+            throw InvalidToken.EXCEPTION;
         }
     }
 }

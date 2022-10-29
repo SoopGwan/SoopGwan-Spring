@@ -1,7 +1,7 @@
 package com.example.soopgwan.global.security.auth;
 
 import com.example.soopgwan.domain.user.persistence.repository.UserRepository;
-import com.example.soopgwan.global.security.exception.UserNotFound;
+import com.example.soopgwan.global.exception.UserNotFound;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,4 +1,4 @@
-package com.example.soopgwan.global.security.exception;
+package com.example.soopgwan.global.exception;
 
 import com.example.soopgwan.global.error.CustomException;
 import com.example.soopgwan.global.error.ErrorCode;

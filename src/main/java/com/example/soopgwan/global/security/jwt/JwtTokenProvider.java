@@ -43,8 +43,10 @@ public class JwtTokenProvider {
         try {
             return Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).
                     parseClaimsJws(token).getBody().getSubject();
-        } catch () {
-
+        } catch (ExpiredJwtException e) {
+            throw ExpiredToken.EXCEPTION;
+        } catch (Exception e) {
+            throw InvaildToken.EXCEPTION;
         }
     }
 }

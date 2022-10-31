@@ -39,7 +39,7 @@ public class WeekHabit {
     @Column(columnDefinition = "DATE", nullable = false)
     private LocalDate endAt;
 
-    @Column(columnDefinition = "INT default 0", nullable = false)
+    @Column(columnDefinition = "INT default 0")
     private Integer status;
 
     @ManyToOne(fetch = FetchType.LAZY)

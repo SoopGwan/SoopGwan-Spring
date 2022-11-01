@@ -12,6 +12,8 @@ public enum ErrorCode {
     INVALID_TOKEN(401, "잘못된 토큰"),
 
     USER_NOT_FOUND(404, "유저를 찾을 수 없음"),
+    HABIT_NOT_FOUND(404, "습관을 찾을 수 없음"),
+
     INTERNAL_SERVER_ERROR(500, "서버 에러");
 
     private final int statusCode;

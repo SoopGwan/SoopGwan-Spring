@@ -20,4 +20,10 @@ public class HabitController {
     public void createHabit(@RequestBody @Valid CreateHabitRequest request) {
         habitService.createHabit(request);
     }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("{{habit-id}")
+    public void deleteHabit(@PathVariable("habit-id") Long habitId) {
+        habitService.deleteHabit(habitId);
+    }
 }

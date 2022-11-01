@@ -5,6 +5,7 @@ import com.example.soopgwan.domain.habit.persistence.repository.WeekHabitReposit
 import com.example.soopgwan.domain.habit.presentation.dto.request.CreateHabitRequest;
 import com.example.soopgwan.domain.user.application.UserService;
 import com.example.soopgwan.domain.user.persistence.User;
+import com.example.soopgwan.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +17,10 @@ import java.time.LocalDate;
 public class HabitService {
 
     private final WeekHabitRepository weekHabitRepository;
-    private final UserService userService;
-    
+    private final UserUtil userUtil;
+
     public void createHabit(CreateHabitRequest request) {
-        User user = userService.getCurrentUser();
+        User user = userUtil.getCurrentUser();
 
         WeekHabit weekHabit = WeekHabit.builder()
                 .content(request.getContent())

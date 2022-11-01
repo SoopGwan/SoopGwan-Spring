@@ -14,6 +14,7 @@ public class UserUtil {
 
     public User getCurrentUser() {
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
+        
         return userRepository.findByAccountId(id)
                 .orElseThrow(() -> UserNotFound.EXCEPTION);
     }

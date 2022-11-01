@@ -14,17 +14,18 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @Service
 public class HabitService {
+
     private final WeekHabitRepository weekHabitRepository;
     private final UserService userService;
-
-    @Transactional
+    
     public void createHabit(CreateHabitRequest request) {
         User user = userService.getCurrentUser();
+
         WeekHabit weekHabit = WeekHabit.builder()
                 .content(request.getContent())
+                // TODO 날짜 다시 지정하기
                 .startAt(LocalDate.now())
                 .endAt(LocalDate.now().plusDays(7))
-                .status(0)
                 .user(user)
                 .build();
 

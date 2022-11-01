@@ -5,10 +5,10 @@ import com.example.soopgwan.domain.user.persistence.repository.UserRepository;
 import com.example.soopgwan.global.exception.UserNotFound;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
-@Service
+@Component
 public class UserUtil {
 
     private final UserRepository userRepository;

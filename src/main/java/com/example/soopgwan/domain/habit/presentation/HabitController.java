@@ -17,7 +17,7 @@ public class HabitController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void createHabit(@Valid @RequestBody CreateHabitRequest request) {
+    public void createHabit(@RequestBody @Valid CreateHabitRequest request) {
         habitService.createHabit(request);
     }
 }

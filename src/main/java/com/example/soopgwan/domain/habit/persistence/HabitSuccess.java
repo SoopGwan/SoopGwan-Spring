@@ -43,4 +43,9 @@ public class HabitSuccess {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "week_habit_id", nullable = false)
     private WeekHabit weekHabit;
+
+    public HabitSuccess plusCount() {
+        this.count += 1;
+        return this;
+    }
 }

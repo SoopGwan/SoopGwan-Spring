@@ -45,4 +45,9 @@ public class WeekHabit {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public WeekHabit setStatus(Integer status) {
+        this.status = status;
+        return this;
+    }
 }

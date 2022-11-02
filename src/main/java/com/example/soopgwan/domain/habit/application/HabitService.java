@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -61,6 +62,18 @@ public class HabitService {
         habitSuccessRepository.save(
                 habitSuccess.plusCount()
         );
+    }
+
+    public void checkWeekHabit(Integer status) {
+        List<WeekHabit> weekHabitList = weekHabitRepository.findAllByStartAtBetween(
+                        getStartAtAndEndAt(Date.START_AT),
+                        getStartAtAndEndAt(Date.END_AT)
+                )
+                .stream()
+                .map(weekHabit -> weekHabit.setStatus(status))
+                .toList();
+
+        weekHabitRepository.saveAll(weekHabitList);
     }
 
     private LocalDate getStartAtAndEndAt(Date date) {

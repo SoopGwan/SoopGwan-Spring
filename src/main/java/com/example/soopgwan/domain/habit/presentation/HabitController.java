@@ -22,8 +22,14 @@ public class HabitController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("{{habit-id}")
+    @DeleteMapping("{habit-id}")
     public void deleteHabit(@PathVariable("habit-id") Long habitId) {
         habitService.deleteHabit(habitId);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("{habit-id}")
+    public void checkHabitSuccess(@PathVariable("habit-id") Long habitId) {
+        habitService.checkHabitSuccess(habitId);
     }
 }

@@ -32,6 +32,7 @@ public class HabitController {
         habitService.checkHabitSuccess(habitId);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/{habit-id}")
     public void checkWeekHabit(@PathVariable("habit-id") Integer status) {
         habitService.checkWeekHabit(status);

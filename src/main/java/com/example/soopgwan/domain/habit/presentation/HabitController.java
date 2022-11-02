@@ -4,14 +4,7 @@ import com.example.soopgwan.domain.habit.application.HabitService;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CreateHabitRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -37,5 +30,11 @@ public class HabitController {
     @PatchMapping("/{habit-id}")
     public void checkHabitSuccess(@PathVariable("habit-id") Long habitId) {
         habitService.checkHabitSuccess(habitId);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/{habit-id}")
+    public void checkWeekHabit(@PathVariable("habit-id") Integer status) {
+        habitService.checkWeekHabit(status);
     }
 }

@@ -26,10 +26,4 @@ public class HabitController {
     public void deleteHabit(@PathVariable("habit-id") Long habitId) {
         habitService.deleteHabit(habitId);
     }
-
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("{habit-success}")
-    public void CheckHabitSuccess(@PathVariable("habit-success") Long habitSuccessId) {
-        habitService.checkHabitSuccess(habitSuccessId);
-    }
 }

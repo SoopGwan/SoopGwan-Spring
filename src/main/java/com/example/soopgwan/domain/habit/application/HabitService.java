@@ -38,11 +38,4 @@ public class HabitService {
 
         weekHabitRepository.delete(weekHabit);
     }
-
-    public void checkHabitSuccess(Long habitSuccessId) {
-        WeekHabit weekHabit = weekHabitRepository.findById(habitSuccessId)
-                .orElseThrow(() -> HabitNotFound.EXCEPTION);
-
-        weekHabitRepository.save(weekHabit);
-    }
 }

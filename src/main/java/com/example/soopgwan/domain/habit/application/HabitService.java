@@ -6,6 +6,7 @@ import com.example.soopgwan.domain.habit.persistence.HabitSuccess;
 import com.example.soopgwan.domain.habit.persistence.WeekHabit;
 import com.example.soopgwan.domain.habit.persistence.repository.HabitSuccessRepository;
 import com.example.soopgwan.domain.habit.persistence.repository.WeekHabitRepository;
+import com.example.soopgwan.domain.habit.presentation.dto.request.CheckWeekHabitRequest;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CreateHabitRequest;
 import com.example.soopgwan.domain.user.persistence.User;
 import com.example.soopgwan.global.util.UserUtil;
@@ -64,13 +65,13 @@ public class HabitService {
         );
     }
 
-    public void checkWeekHabit(Integer status) {
+    public void checkWeekHabit(CheckWeekHabitRequest request) {
         List<WeekHabit> weekHabitList = weekHabitRepository.findAllByStartAtBetween(
                         getStartAtAndEndAt(Date.START_AT),
                         getStartAtAndEndAt(Date.END_AT)
                 )
                 .stream()
-                .map(weekHabit -> weekHabit.setStatus(status))
+                .map(weekHabit -> weekHabit.setStatus(request.getStatus()))
                 .toList();
 
         weekHabitRepository.saveAll(weekHabitList);

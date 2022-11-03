@@ -5,10 +5,10 @@ import com.example.soopgwan.domain.habit.persistence.WeekHabit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.time.LocalDate;
 
 @Repository
 public interface HabitSuccessRepository extends JpaRepository<HabitSuccess, Long> {
 
-    Optional<HabitSuccess> findByWeekHabit(WeekHabit weekHabit);
+    Boolean existsByWeekHabitAndSuccessAt(WeekHabit weekHabit, LocalDate successAt);
 }

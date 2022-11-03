@@ -1,6 +1,7 @@
 package com.example.soopgwan.domain.habit.presentation;
 
 import com.example.soopgwan.domain.habit.application.HabitService;
+import com.example.soopgwan.domain.habit.presentation.dto.request.CheckWeekHabitRequest;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CreateHabitRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,7 @@ public class HabitController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/{habit-id}")
-    public void checkWeekHabit(@PathVariable("habit-id") Integer status) {
-        habitService.checkWeekHabit(status);
+    public void checkWeekHabit(@RequestBody @Valid CheckWeekHabitRequest request) {
+        habitService.checkWeekHabit(request);
     }
 }

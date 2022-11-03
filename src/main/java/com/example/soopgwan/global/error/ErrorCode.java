@@ -14,6 +14,8 @@ public enum ErrorCode {
     USER_NOT_FOUND(404, "유저를 찾을 수 없음"),
     HABIT_NOT_FOUND(404, "습관을 찾을 수 없음"),
 
+    HABIT_ALREADY_EXISTS(409, "습관이 이미 존재함"),
+
     INTERNAL_SERVER_ERROR(500, "서버 에러");
 
     private final int statusCode;

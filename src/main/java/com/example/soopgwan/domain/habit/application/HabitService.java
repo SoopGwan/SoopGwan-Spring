@@ -1,7 +1,6 @@
 package com.example.soopgwan.domain.habit.application;
 
 import com.example.soopgwan.domain.habit.application.enums.Date;
-import com.example.soopgwan.domain.habit.exception.ExistsHabitSuccess;
 import com.example.soopgwan.domain.habit.exception.HabitNotFound;
 import com.example.soopgwan.domain.habit.persistence.HabitSuccess;
 import com.example.soopgwan.domain.habit.persistence.WeekHabit;
@@ -9,8 +8,8 @@ import com.example.soopgwan.domain.habit.persistence.repository.HabitSuccessRepo
 import com.example.soopgwan.domain.habit.persistence.repository.WeekHabitRepository;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CheckWeekHabitRequest;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CreateHabitRequest;
+import com.example.soopgwan.domain.habit.presentation.dto.response.ReferWeekHabitResponse;
 import com.example.soopgwan.domain.habit.presentation.dto.response.WeekHabitElement;
-import com.example.soopgwan.domain.habit.presentation.dto.response.WeekHabitResponse;
 import com.example.soopgwan.domain.user.persistence.User;
 import com.example.soopgwan.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
@@ -56,9 +55,7 @@ public class HabitService {
 
         LocalDate date = LocalDate.now();
 
-        if (habitSuccessRepository.existsByWeekHabitAndSuccessAt(weekHabit, date)) {
-            throw ExistsHabitSuccess.EXCEPTION;
-        } else {
+        if (!habitSuccessRepository.existsByWeekHabitAndSuccessAt(weekHabit, date)) {
             HabitSuccess habitSuccess = HabitSuccess.builder()
                     .successAt(date)
                     .weekHabit(weekHabit)
@@ -80,7 +77,7 @@ public class HabitService {
         weekHabitRepository.saveAll(weekHabitList);
     }
 
-    public WeekHabitResponse weekHabitResponse() {
+    public ReferWeekHabitResponse referWeekHabitResponse() {
         List<WeekHabitElement> weekHabitElementList = weekHabitRepository.findAllByStartAtBetween(getStartAtAndEndAt(Date.START_AT), getStartAtAndEndAt(Date.END_AT))
                 .stream()
                 .map(weekHabit -> {
@@ -89,7 +86,7 @@ public class HabitService {
                 })
                 .toList();
 
-        return new WeekHabitResponse(weekHabitElementList);
+        return new ReferWeekHabitResponse(weekHabitElementList);
     }
 
     private LocalDate getStartAtAndEndAt(Date date) {

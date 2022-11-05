@@ -55,9 +55,7 @@ public class HabitService {
 
         LocalDate date = LocalDate.now();
 
-        Boolean alreadyExists = habitSuccessRepository.existsByWeekHabitAndSuccessAt(weekHabit, date);
-
-        if (alreadyExists) {
+        if (Boolean.TRUE.equals(habitSuccessRepository.existsByWeekHabitAndSuccessAt(weekHabit, date))) {
             return;
         }
 

@@ -55,14 +55,14 @@ public class HabitService {
 
         LocalDate date = LocalDate.now();
 
-        if (!habitSuccessRepository.existsByWeekHabitAndSuccessAt(weekHabit, date)) {
-            HabitSuccess habitSuccess = HabitSuccess.builder()
-                    .successAt(date)
-                    .weekHabit(weekHabit)
-                    .build();
+        if (habitSuccessRepository.existsByWeekHabitAndSuccessAt(weekHabit, date))
+            return;
+        HabitSuccess habitSuccess = HabitSuccess.builder()
+                .successAt(date)
+                .weekHabit(weekHabit)
+                .build();
 
-            habitSuccessRepository.save(habitSuccess);
-        }
+        habitSuccessRepository.save(habitSuccess);
     }
 
     public void checkWeekHabit(CheckWeekHabitRequest request) {

@@ -3,7 +3,7 @@ package com.example.soopgwan.domain.habit.presentation;
 import com.example.soopgwan.domain.habit.application.HabitService;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CheckWeekHabitRequest;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CreateHabitRequest;
-import com.example.soopgwan.domain.habit.presentation.dto.response.WeekHabitResponse;
+import com.example.soopgwan.domain.habit.presentation.dto.response.ReferWeekHabitResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +41,7 @@ public class HabitController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public WeekHabitResponse weekHabitResponse() {
-        return habitService.weekHabitResponse();
+    public ReferWeekHabitResponse referWeekHabitResponse() {
+        return habitService.referWeekHabitResponse();
     }
 }

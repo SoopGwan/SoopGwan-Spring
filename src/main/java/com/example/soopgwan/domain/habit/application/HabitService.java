@@ -55,16 +55,17 @@ public class HabitService {
 
         LocalDate date = LocalDate.now();
 
-        if (Boolean.TRUE.equals(habitSuccessRepository.existsByWeekHabitAndSuccessAt(weekHabit, date))) {
-            return;
+        Boolean existsByWeekHabitAndSuccessAt = habitSuccessRepository.existsByWeekHabitAndSuccessAt(weekHabit, date);
+
+        if (Boolean.FALSE.equals(existsByWeekHabitAndSuccessAt)) {
+
+            HabitSuccess habitSuccess = HabitSuccess.builder()
+                    .successAt(date)
+                    .weekHabit(weekHabit)
+                    .build();
+
+            habitSuccessRepository.save(habitSuccess);
         }
-
-        HabitSuccess habitSuccess = HabitSuccess.builder()
-                .successAt(date)
-                .weekHabit(weekHabit)
-                .build();
-
-        habitSuccessRepository.save(habitSuccess);
     }
 
     public void checkWeekHabit(CheckWeekHabitRequest request) {
@@ -79,7 +80,7 @@ public class HabitService {
         weekHabitRepository.saveAll(weekHabitList);
     }
 
-    public ReferWeekHabitResponse referWeekHabitResponse() {
+    public ReferWeekHabitResponse referWeekHabit() {
         List<WeekHabitElement> weekHabitElementList = weekHabitRepository.findAllByStartAtBetween(getStartAtAndEndAt(Date.START_AT), getStartAtAndEndAt(Date.END_AT))
                 .stream()
                 .map(weekHabit -> {

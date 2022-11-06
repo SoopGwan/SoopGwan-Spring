@@ -3,6 +3,7 @@ package com.example.soopgwan.domain.habit.presentation;
 import com.example.soopgwan.domain.habit.application.HabitService;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CheckWeekHabitRequest;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CreateHabitRequest;
+import com.example.soopgwan.domain.habit.presentation.dto.response.ReferWeekHabitResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -37,5 +38,10 @@ public class HabitController {
     @PatchMapping("/{habit-id}")
     public void checkWeekHabit(@RequestBody @Valid CheckWeekHabitRequest request) {
         habitService.checkWeekHabit(request);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ReferWeekHabitResponse referWeekHabit() {
+        return habitService.referWeekHabit();
     }
 }

@@ -20,9 +20,6 @@ public class HabitSuccess {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "INT", nullable = false)
-    private Integer count;
-
     @CreatedDate
     @Column(columnDefinition = "DATE", nullable = false)
     private LocalDate successAt;
@@ -30,9 +27,4 @@ public class HabitSuccess {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "week_habit_id", nullable = false)
     private WeekHabit weekHabit;
-
-    public HabitSuccess plusCount() {
-        this.count += 1;
-        return this;
-    }
 }

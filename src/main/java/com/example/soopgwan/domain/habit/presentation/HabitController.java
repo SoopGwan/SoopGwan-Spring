@@ -41,7 +41,7 @@ public class HabitController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ReferWeekHabitResponse referWeekHabitResponse() {
-        return habitService.referWeekHabitResponse();
+    public ReferWeekHabitResponse referWeekHabit() {
+        return habitService.referWeekHabit();
     }
 }

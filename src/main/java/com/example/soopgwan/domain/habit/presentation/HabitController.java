@@ -3,6 +3,7 @@ package com.example.soopgwan.domain.habit.presentation;
 import com.example.soopgwan.domain.habit.application.HabitService;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CheckWeekHabitRequest;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CreateHabitRequest;
+import com.example.soopgwan.domain.habit.presentation.dto.response.HabitResponse;
 import com.example.soopgwan.domain.habit.presentation.dto.response.ReferWeekHabitResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -48,8 +49,14 @@ public class HabitController {
         habitService.checkWeekHabit(request);
     }
 
-    @GetMapping
+    @GetMapping("/week")
     public ReferWeekHabitResponse referWeekHabit() {
         return habitService.referWeekHabit();
+    }
+
+    // TODO 추후에 날짜 받아서 특정 값만 가져오기
+    @GetMapping
+    public HabitResponse getAllHabit() {
+        return habitService.getAllHabit();
     }
 }

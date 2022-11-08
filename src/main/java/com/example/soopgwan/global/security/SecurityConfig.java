@@ -32,7 +32,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
 
-                .antMatchers("/users").permitAll()
+                .antMatchers("/users/**").permitAll()
 
                 .anyRequest().authenticated()
 

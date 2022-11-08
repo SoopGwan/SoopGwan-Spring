@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class TokenResponse {
     private final String accessToken;
     private final String refreshToken;

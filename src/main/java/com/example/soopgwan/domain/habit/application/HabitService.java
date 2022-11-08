@@ -8,6 +8,8 @@ import com.example.soopgwan.domain.habit.persistence.repository.HabitSuccessRepo
 import com.example.soopgwan.domain.habit.persistence.repository.WeekHabitRepository;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CheckWeekHabitRequest;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CreateHabitRequest;
+import com.example.soopgwan.domain.habit.presentation.dto.response.HabitElement;
+import com.example.soopgwan.domain.habit.presentation.dto.response.HabitResponse;
 import com.example.soopgwan.domain.habit.presentation.dto.response.ReferWeekHabitResponse;
 import com.example.soopgwan.domain.habit.presentation.dto.response.WeekHabitElement;
 import com.example.soopgwan.domain.user.persistence.User;
@@ -90,6 +92,20 @@ public class HabitService {
                 .toList();
 
         return new ReferWeekHabitResponse(weekHabitElementList);
+    }
+
+    public HabitResponse getAllHabit() {
+        List<HabitElement> habitList = weekHabitRepository.findAll()
+                .stream()
+                .map(weekHabit -> HabitElement.builder()
+                        .id(weekHabit.getId())
+                        .startAt(weekHabit.getStartAt())
+                        .endAt(weekHabit.getEndAt())
+                        .level(weekHabit.getStatus())
+                        .build())
+                .toList();
+
+        return new HabitResponse(habitList);
     }
 
     private LocalDate getStartAtAndEndAt(Date date) {

@@ -9,5 +9,5 @@ import java.util.List;
 @AllArgsConstructor
 public class ReferWeekHabitResponse {
 
-    private List<WeekHabitElement> weekHabitElementList;
+    private final List<WeekHabitElement> weekHabitElementList;
 }

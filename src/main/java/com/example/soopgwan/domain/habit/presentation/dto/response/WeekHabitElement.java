@@ -7,9 +7,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public class WeekHabitElement {
 
-    private Long id;
+    private final Long id;
 
-    private String content;
+    private final String content;
 
-    private Boolean successStatus;
+    private final Boolean successStatus;
 }

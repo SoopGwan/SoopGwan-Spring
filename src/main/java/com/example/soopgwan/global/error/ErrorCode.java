@@ -16,9 +16,9 @@ public enum ErrorCode {
 
     HABIT_ALREADY_EXISTS(409, "습관이 이미 존재함"),
 
-    INTERNAL_SERVER_ERROR(500, "서버 에러"),
+    USER_EXISTS(409, "유저 아이디 중복"),
 
-    USER_EXISTS(409, "유저 아이디 중복");
+    INTERNAL_SERVER_ERROR(500, "서버 에러");
 
     private final int statusCode;
     private final String message;

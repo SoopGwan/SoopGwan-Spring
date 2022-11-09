@@ -13,6 +13,7 @@ import com.example.soopgwan.domain.user.presentation.dto.response.TokenResponse;
 import com.example.soopgwan.global.security.jwt.JwtProperties;
 import com.example.soopgwan.global.security.jwt.JwtTokenProvider;
 import com.example.soopgwan.global.util.UserUtil;
+import com.example.soopgwan.infrastructure.CoolsmsProperties;
 import lombok.RequiredArgsConstructor;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
@@ -37,12 +38,7 @@ public class UserService {
     private final UserUtil userUtil;
     private final VerifyCodeRepository verifyCodeRepository;
     private final JwtProperties jwtProperties;
-    @Value("${coolsms.api-key}")
-    private String apiKey;
-    @Value("${coolsms.api-secret}")
-    private String apiSecret;
-    @Value("${coolsms.sender-number}")
-    private String senderNumber;
+    private final CoolsmsProperties coolsmsProperties;
 
     public TokenResponse signUp(SignUpRequset request) {
         if (userRepository.findByAccountId(request.getAccountId()).isPresent()) {
@@ -92,27 +88,24 @@ public class UserService {
         user.changePassword(passwordEncoder.encode(request.getPassword()));
     }
 
-    public void sendCode(SendCodeRequest request) {
+    public void sendCode(SendCodeRequest request) throws CoolsmsException {
         Integer count = verifyCodeRepository.findById(request.getPhoneNumber()).isEmpty() ?
                 0 : verifyCodeRepository.findById(request.getPhoneNumber()).get().getCount();
         if (count >= 5) {
             throw TooManySendCode.EXCEPTION;
         }
-        Message coolsms = new Message(apiKey, apiSecret);
+        Message coolsms = new Message(coolsmsProperties.getApiKey(), coolsmsProperties.getSecretKey());
 
         Random rand = new Random();
         String code = RandomStringUtils.randomNumeric(4);
         HashMap<String, String> params = new HashMap<>();
         params.put("to", request.getPhoneNumber());
-        params.put("from", senderNumber);
+        params.put("from", coolsmsProperties.getSender());
         params.put("type", "SMS");
         params.put("text", "[SOOPGWAN] 숲관 인증번호는 [" + code + "] 입니다.");
-        try {
-            coolsms.send(params);
-        }catch(CoolsmsException e){
-            e.printStackTrace();
-            System.out.println(e.getCode());
-        }
+
+        coolsms.send(params);
+
         VerifyCode verifyCode = VerifyCode.builder()
                 .phoneNumber(request.getPhoneNumber())
                 .code(code)

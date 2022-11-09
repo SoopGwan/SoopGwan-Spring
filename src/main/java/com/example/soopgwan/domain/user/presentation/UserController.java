@@ -29,7 +29,7 @@ public class UserController {
         return userService.login(request);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/check", method = RequestMethod.HEAD)
     public void check(@RequestParam(value = "account_id") String accountId) {
         userService.overLapCheck(accountId);

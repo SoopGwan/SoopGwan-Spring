@@ -24,5 +24,9 @@ public class User {
 
     @Column(columnDefinition = "CHAR(11)", nullable = false)
     private String phoneNumber;
+
+    public void changePassword(String password) {
+        this.password = password;
+    }
 }
  

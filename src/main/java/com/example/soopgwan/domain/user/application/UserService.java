@@ -50,4 +50,10 @@ public class UserService {
         String refreshToken = jwtTokenProvider.generateToken(user.getAccountId(), "refresh");
         return new TokenResponse(accessToken, refreshToken);
     }
+
+    public void overLapCheck(String accountId) {
+        if (userRepository.findByAccountId(accountId).isPresent()) {
+            throw UserExists.EXCEPTION;
+        }
+    }
 }

@@ -35,6 +35,7 @@ public class SecurityConfig {
 
                 .antMatchers(HttpMethod.POST, "/users/signup").permitAll()
                 .antMatchers(HttpMethod.POST, "/users/login").permitAll()
+                .antMatchers(HttpMethod.HEAD, "/users/check").permitAll()
 
                 .anyRequest().authenticated()
 

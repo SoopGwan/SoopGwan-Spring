@@ -15,17 +15,23 @@ import javax.validation.Valid;
 @RequestMapping("/users")
 @RestController
 public class UserController {
-    private final UserService signUpService;
+    private final UserService userService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signup")
     public TokenResponse signUp(@RequestBody @Valid SignUpRequset request) {
-        return signUpService.signUp(request);
+        return userService.signUp(request);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/login")
     public TokenResponse login(@RequestBody @Valid LoginRequest request) {
-        return signUpService.login(request);
+        return userService.login(request);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/check", method = RequestMethod.HEAD)
+    public void check(@RequestParam(value = "account_id") String accountId) {
+        userService.overLapCheck(accountId);
     }
 }

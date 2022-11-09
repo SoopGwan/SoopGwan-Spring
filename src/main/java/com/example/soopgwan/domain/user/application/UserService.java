@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
@@ -66,11 +65,12 @@ public class UserService {
 
     @Transactional()
     public void changePassword(ChangePasswordRequest request) {
+
+        User user = userUtil.getCurrentUser();
+
         if (!request.getPassword().equals(request.getRepeatPassword())) {
             throw PasswordDifferent.EXCEPTION;
         }
-
-        User user = userUtil.getCurrentUser();
 
         user.changePassword(passwordEncoder.encode(request.getPassword()));
     }

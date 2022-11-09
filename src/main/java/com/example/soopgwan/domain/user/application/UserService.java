@@ -13,10 +13,12 @@ import com.example.soopgwan.domain.user.presentation.dto.response.TokenResponse;
 import com.example.soopgwan.global.security.jwt.JwtTokenProvider;
 import com.example.soopgwan.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.Duration;
 
 @RequiredArgsConstructor
 @Service
@@ -38,9 +40,8 @@ public class UserService {
                 .phoneNumber(request.getPhoneNumber())
                 .build();
         userRepository.save(user);
-
-        String accessToken = jwtTokenProvider.generateToken(user.getAccountId(), "access");
-        String refreshToken = jwtTokenProvider.generateToken(user.getAccountId(), "refresh");
+        String accessToken = jwtTokenProvider.generateAccessToken(user.getAccountId());
+        String refreshToken = jwtTokenProvider.generateRefreshToken(user.getAccountId());
         return new TokenResponse(accessToken, refreshToken);
     }
 
@@ -52,8 +53,8 @@ public class UserService {
             throw PasswordMisMatch.EXCEPTION;
         }
 
-        String accessToken = jwtTokenProvider.generateToken(user.getAccountId(), "access");
-        String refreshToken = jwtTokenProvider.generateToken(user.getAccountId(), "refresh");
+        String accessToken = jwtTokenProvider.generateAccessToken(user.getAccountId());
+        String refreshToken = jwtTokenProvider.generateRefreshToken(user.getAccountId());
         return new TokenResponse(accessToken, refreshToken);
     }
 

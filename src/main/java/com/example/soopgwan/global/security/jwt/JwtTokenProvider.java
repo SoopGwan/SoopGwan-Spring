@@ -1,5 +1,7 @@
 package com.example.soopgwan.global.security.jwt;
 
+import com.example.soopgwan.domain.user.persistence.RefreshToken;
+import com.example.soopgwan.domain.user.persistence.repository.RefreshTokenRepository;
 import com.example.soopgwan.global.security.auth.AuthDetailsService;
 import com.example.soopgwan.global.security.exception.ExpiredToken;
 import com.example.soopgwan.global.security.exception.InvalidToken;
@@ -23,15 +25,33 @@ public class JwtTokenProvider {
 
     private final AuthDetailsService authDetailsService;
     private final JwtProperties jwtProperties;
+    private final RefreshTokenRepository refreshTokenRepository;
 
-    public String generateToken(String id, String type) {
+    private String generateToken(String accountId, String type, Long exp) {
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
-                .setSubject(id)
+                .setSubject(accountId)
                 .claim("type", type)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getAccessExp() * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + exp * 1000))
                 .compact();
+    }
+
+    public String generateAccessToken(String accountId) {
+        return generateToken(accountId, ACCESS_TYPE, jwtProperties.getAccessExp());
+    }
+
+    public String generateRefreshToken(String accountId) {
+        String refresh = generateToken(accountId, REFRESH_TYPE, jwtProperties.getRefreshExp());
+
+        RefreshToken refreshToken = RefreshToken.builder()
+                .accountId(accountId)
+                .token(refresh)
+                .ttl(jwtProperties.getRefreshExp())
+                .build();
+        refreshTokenRepository.save(refreshToken);
+
+        return refresh;
     }
 
     public Authentication authentication(String token) {

@@ -38,11 +38,13 @@ public class JwtTokenProvider {
     }
 
     public String generateAccessToken(String accountId) {
-        return generateToken(accountId, "access", jwtProperties.getAccessExp());
+        final String type = "access";
+        return generateToken(accountId, type, jwtProperties.getAccessExp());
     }
 
     public String generateRefreshToken(String accountId) {
-        String refresh = generateToken(accountId, "refresh", jwtProperties.getRefreshExp());
+        final String type = "refresh";
+        String refresh = generateToken(accountId, type, jwtProperties.getRefreshExp());
         refreshTokenRepository.save(
                 RefreshToken.builder()
                         .accountId(accountId)

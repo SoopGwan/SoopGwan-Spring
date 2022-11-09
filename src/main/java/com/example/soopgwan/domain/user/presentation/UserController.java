@@ -1,6 +1,7 @@
 package com.example.soopgwan.domain.user.presentation;
 
 import com.example.soopgwan.domain.user.application.UserService;
+import com.example.soopgwan.domain.user.presentation.dto.request.ChangePasswordRequest;
 import com.example.soopgwan.domain.user.presentation.dto.request.LoginRequest;
 import com.example.soopgwan.domain.user.presentation.dto.request.SignUpRequset;
 import com.example.soopgwan.domain.user.presentation.dto.response.TokenResponse;
@@ -33,5 +34,11 @@ public class UserController {
     @RequestMapping(value = "/check", method = RequestMethod.HEAD)
     public void check(@RequestParam(value = "account_id") String accountId) {
         userService.overLapCheck(accountId);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/change")
+    public void changePassword(@RequestBody @Valid ChangePasswordRequest request) {
+        userService.changePassword(request);
     }
 }

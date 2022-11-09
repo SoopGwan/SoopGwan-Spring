@@ -27,7 +27,7 @@ public class JwtTokenProvider {
     private final JwtProperties jwtProperties;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    private String generateToken(String accountId, String type, long exp) {
+    private String generateToken(String accountId, String type, Long exp) {
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                 .setSubject(accountId)
@@ -38,19 +38,19 @@ public class JwtTokenProvider {
     }
 
     public String generateAccessToken(String accountId) {
-        final String type = "access";
-        return generateToken(accountId, type, jwtProperties.getAccessExp());
+        return generateToken(accountId, ACCESS_TYPE, jwtProperties.getAccessExp());
     }
 
     public String generateRefreshToken(String accountId) {
-        final String type = "refresh";
-        String refresh = generateToken(accountId, type, jwtProperties.getRefreshExp());
-        refreshTokenRepository.save(
-                RefreshToken.builder()
-                        .accountId(accountId)
-                        .token(refresh)
-                        .ttl(jwtProperties.getRefreshExp())
-                        .build());
+        String refresh = generateToken(accountId, REFRESH_TYPE, jwtProperties.getRefreshExp());
+
+        RefreshToken refreshToken = RefreshToken.builder()
+                .accountId(accountId)
+                .token(refresh)
+                .ttl(jwtProperties.getRefreshExp())
+                .build();
+        refreshTokenRepository.save(refreshToken);
+
         return refresh;
     }
 

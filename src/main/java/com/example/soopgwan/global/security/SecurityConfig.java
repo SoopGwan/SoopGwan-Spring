@@ -5,6 +5,7 @@ import com.example.soopgwan.global.security.jwt.JwtTokenResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -32,7 +33,8 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
 
-                .antMatchers("/users/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/users/signup").permitAll()
+                .antMatchers(HttpMethod.POST, "/users/login").permitAll()
 
                 .anyRequest().authenticated()
 

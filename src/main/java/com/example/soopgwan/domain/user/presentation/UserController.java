@@ -7,6 +7,7 @@ import com.example.soopgwan.domain.user.presentation.dto.request.SendCodeRequest
 import com.example.soopgwan.domain.user.presentation.dto.request.SignUpRequset;
 import com.example.soopgwan.domain.user.presentation.dto.response.TokenResponse;
 import lombok.RequiredArgsConstructor;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +46,7 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/send")
-    public void sendCode(@RequestBody @Valid SendCodeRequest request) {
+    public void sendCode(@RequestBody @Valid SendCodeRequest request) throws CoolsmsException {
         userService.sendCode(request);
     }
 }

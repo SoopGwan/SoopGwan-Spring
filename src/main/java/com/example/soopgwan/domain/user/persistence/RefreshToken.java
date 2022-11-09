@@ -21,12 +21,12 @@ public class RefreshToken {
     private String accountId;
 
     @Indexed
-    private String refreshToken;
+    private String token;
 
     @TimeToLive
     private Long ttl;
 
     public void updateToken(String refreshToken) {
-        this.refreshToken = refreshToken;
+        this.token = refreshToken;
     }
 }

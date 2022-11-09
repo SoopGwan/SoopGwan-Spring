@@ -3,12 +3,12 @@ package com.example.soopgwan.domain.user.exception;
 import com.example.soopgwan.global.error.CustomException;
 import com.example.soopgwan.global.error.ErrorCode;
 
-public class UserExistsException extends CustomException {
+public class UserNotFound extends CustomException {
 
     public static final CustomException EXCEPTION =
-            new UserExistsException();
+            new UserNotFound();
 
-    private UserExistsException() {
-        super(ErrorCode.USER_EXISTS);
+    private UserNotFound() {
+        super(ErrorCode.USER_NOT_FOUND);
     }
 }

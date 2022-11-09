@@ -3,6 +3,7 @@ package com.example.soopgwan.domain.user.presentation;
 import com.example.soopgwan.domain.user.application.UserService;
 import com.example.soopgwan.domain.user.presentation.dto.request.ChangePasswordRequest;
 import com.example.soopgwan.domain.user.presentation.dto.request.LoginRequest;
+import com.example.soopgwan.domain.user.presentation.dto.request.SendCodeRequest;
 import com.example.soopgwan.domain.user.presentation.dto.request.SignUpRequset;
 import com.example.soopgwan.domain.user.presentation.dto.response.TokenResponse;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +41,11 @@ public class UserController {
     @PatchMapping("/change")
     public void changePassword(@RequestBody @Valid ChangePasswordRequest request) {
         userService.changePassword(request);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/send")
+    public void sendCode(@RequestBody @Valid SendCodeRequest request) {
+        userService.sendCode(request);
     }
 }

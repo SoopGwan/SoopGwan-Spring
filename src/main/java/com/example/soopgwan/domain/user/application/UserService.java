@@ -2,7 +2,6 @@ package com.example.soopgwan.domain.user.application;
 
 import com.example.soopgwan.domain.user.exception.*;
 import com.example.soopgwan.domain.user.persistence.User;
-import com.example.soopgwan.domain.user.persistence.VerifyCode;
 import com.example.soopgwan.domain.user.persistence.repository.UserRepository;
 import com.example.soopgwan.domain.user.persistence.repository.VerifyCodeRepository;
 import com.example.soopgwan.domain.user.presentation.dto.request.ChangePasswordRequest;
@@ -10,23 +9,15 @@ import com.example.soopgwan.domain.user.presentation.dto.request.LoginRequest;
 import com.example.soopgwan.domain.user.presentation.dto.request.SendCodeRequest;
 import com.example.soopgwan.domain.user.presentation.dto.request.SignUpRequset;
 import com.example.soopgwan.domain.user.presentation.dto.response.TokenResponse;
-import com.example.soopgwan.global.security.jwt.JwtProperties;
 import com.example.soopgwan.global.security.jwt.JwtTokenProvider;
 import com.example.soopgwan.global.util.UserUtil;
-import com.example.soopgwan.infrastructure.CoolsmsProperties;
+import com.example.soopgwan.infrastructure.utils.MessageUtil;
 import lombok.RequiredArgsConstructor;
-import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
-import org.apache.commons.lang.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Random;
 
 @RequiredArgsConstructor
 @Service
@@ -37,11 +28,10 @@ public class UserService {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserUtil userUtil;
     private final VerifyCodeRepository verifyCodeRepository;
-    private final JwtProperties jwtProperties;
-    private final CoolsmsProperties coolsmsProperties;
+    private final MessageUtil coolsms;
 
     public TokenResponse signUp(SignUpRequset request) {
-        if (userRepository.findByAccountId(request.getAccountId()).isPresent()) {
+        if (userRepository.existsByAccountId(request.getAccountId())) {
             throw UserExists.EXCEPTION;
         }
 
@@ -89,30 +79,14 @@ public class UserService {
     }
 
     public void sendCode(SendCodeRequest request) throws CoolsmsException {
-        Integer count = verifyCodeRepository.findById(request.getPhoneNumber()).isEmpty() ?
+
+        int count = verifyCodeRepository.findById(request.getPhoneNumber()).isEmpty() ?
                 0 : verifyCodeRepository.findById(request.getPhoneNumber()).get().getCount();
+
         if (count >= 5) {
             throw TooManySendCode.EXCEPTION;
         }
-        Message coolsms = new Message(coolsmsProperties.getApiKey(), coolsmsProperties.getSecretKey());
 
-        Random rand = new Random();
-        String code = RandomStringUtils.randomNumeric(4);
-        HashMap<String, String> params = new HashMap<>();
-        params.put("to", request.getPhoneNumber());
-        params.put("from", coolsmsProperties.getSender());
-        params.put("type", "SMS");
-        params.put("text", "[SOOPGWAN] 숲관 인증번호는 [" + code + "] 입니다.");
-
-        coolsms.send(params);
-
-        VerifyCode verifyCode = VerifyCode.builder()
-                .phoneNumber(request.getPhoneNumber())
-                .code(code)
-                .count(count + 1)
-                .ttl(300)
-                .build();
-        verifyCodeRepository.save(verifyCode);
-
+        coolsms.send(request.getPhoneNumber(), count);
     }
 }

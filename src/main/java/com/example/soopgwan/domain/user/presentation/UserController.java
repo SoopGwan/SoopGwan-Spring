@@ -1,10 +1,7 @@
 package com.example.soopgwan.domain.user.presentation;
 
 import com.example.soopgwan.domain.user.application.UserService;
-import com.example.soopgwan.domain.user.presentation.dto.request.ChangePasswordRequest;
-import com.example.soopgwan.domain.user.presentation.dto.request.LoginRequest;
-import com.example.soopgwan.domain.user.presentation.dto.request.SendCodeRequest;
-import com.example.soopgwan.domain.user.presentation.dto.request.SignUpRequset;
+import com.example.soopgwan.domain.user.presentation.dto.request.*;
 import com.example.soopgwan.domain.user.presentation.dto.response.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -54,5 +51,11 @@ public class UserController {
     @PostMapping("/send")
     public void sendCode(@RequestBody @Valid SendCodeRequest request) {
         userService.sendCode(request);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PostMapping("/verify")
+    public void verifyCode(@RequestBody @Valid VerifyCodeRequest request) {
+        userService.verifyCode(request);
     }
 }

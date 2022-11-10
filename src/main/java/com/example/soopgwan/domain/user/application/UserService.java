@@ -31,7 +31,7 @@ public class UserService {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserUtil userUtil;
     private final VerifyCodeRepository verifyCodeRepository;
-    private final MessageUtil coolsms;
+    private final MessageUtil messageUtil;
 
     public TokenResponse signUp(SignUpRequset request) {
         if (userRepository.existsByAccountId(request.getAccountId())) {
@@ -89,6 +89,6 @@ public class UserService {
             throw TooManySendCode.EXCEPTION;
         }
 
-        coolsms.send(request.getPhoneNumber(), count);
+        messageUtil.send(request.getPhoneNumber(), count);
     }
 }

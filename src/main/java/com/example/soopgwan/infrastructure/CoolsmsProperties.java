@@ -10,12 +10,12 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 public class CoolsmsProperties {
 
     private final String apiKey;
-    private final String secretKey;
+    private final String apiSecret;
     private final String sender;
 
-    public CoolsmsProperties(String apiKey, String secretKey, String sender) {
+    public CoolsmsProperties(String apiKey, String apiSecret, String sender) {
         this.apiKey = apiKey;
-        this.secretKey = secretKey;
+        this.apiSecret = apiSecret;
         this.sender = sender;
     }
 }

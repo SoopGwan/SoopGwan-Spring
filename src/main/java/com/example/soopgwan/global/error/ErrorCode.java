@@ -14,6 +14,8 @@ public enum ErrorCode {
     PASSWORD_DIFFERENT(401, "비밀번호가 일치하지 않음"),
     VERIFY_CODE_DIFFERENT(401, "인증코드가 일치하지 않음"),
 
+    VERIFY_CODE_EXPIRED(403, "인증 코드가 만료됨"),
+
     USER_NOT_FOUND(404, "유저를 찾을 수 없음"),
     HABIT_NOT_FOUND(404, "습관을 찾을 수 없음"),
 

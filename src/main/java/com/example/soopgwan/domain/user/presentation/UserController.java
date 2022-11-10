@@ -53,7 +53,7 @@ public class UserController {
         userService.sendCode(request);
     }
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping("/verify")
     public void verifyCode(@RequestBody @Valid VerifyCodeRequest request) {
         userService.verifyCode(request);

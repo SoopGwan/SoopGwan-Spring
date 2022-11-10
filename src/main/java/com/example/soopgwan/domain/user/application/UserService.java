@@ -2,23 +2,25 @@ package com.example.soopgwan.domain.user.application;
 
 import com.example.soopgwan.domain.user.exception.PasswordDifferent;
 import com.example.soopgwan.domain.user.exception.PasswordMisMatch;
+import com.example.soopgwan.domain.user.exception.TooManySendCode;
 import com.example.soopgwan.domain.user.exception.UserExists;
 import com.example.soopgwan.domain.user.exception.UserNotFound;
 import com.example.soopgwan.domain.user.persistence.User;
 import com.example.soopgwan.domain.user.persistence.repository.UserRepository;
+import com.example.soopgwan.domain.user.persistence.repository.VerifyCodeRepository;
 import com.example.soopgwan.domain.user.presentation.dto.request.ChangePasswordRequest;
 import com.example.soopgwan.domain.user.presentation.dto.request.LoginRequest;
+import com.example.soopgwan.domain.user.presentation.dto.request.SendCodeRequest;
 import com.example.soopgwan.domain.user.presentation.dto.request.SignUpRequset;
 import com.example.soopgwan.domain.user.presentation.dto.response.TokenResponse;
 import com.example.soopgwan.global.security.jwt.JwtTokenProvider;
 import com.example.soopgwan.global.util.UserUtil;
+import com.example.soopgwan.infrastructure.utils.MessageUtil;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.Duration;
 
 @RequiredArgsConstructor
 @Service
@@ -28,9 +30,11 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserUtil userUtil;
+    private final VerifyCodeRepository verifyCodeRepository;
+    private final MessageUtil messageUtil;
 
     public TokenResponse signUp(SignUpRequset request) {
-        if (userRepository.findByAccountId(request.getAccountId()).isPresent()) {
+        if (userRepository.existsByAccountId(request.getAccountId())) {
             throw UserExists.EXCEPTION;
         }
 
@@ -40,6 +44,7 @@ public class UserService {
                 .phoneNumber(request.getPhoneNumber())
                 .build();
         userRepository.save(user);
+
         String accessToken = jwtTokenProvider.generateAccessToken(user.getAccountId());
         String refreshToken = jwtTokenProvider.generateRefreshToken(user.getAccountId());
         return new TokenResponse(accessToken, refreshToken);
@@ -74,5 +79,16 @@ public class UserService {
         }
 
         user.changePassword(passwordEncoder.encode(request.getPassword()));
+    }
+
+    public void sendCode(SendCodeRequest request) {
+        int count = verifyCodeRepository.findById(request.getPhoneNumber()).isEmpty() ?
+                0 : verifyCodeRepository.findById(request.getPhoneNumber()).get().getCount();
+
+        if (count >= 5) {
+            throw TooManySendCode.EXCEPTION;
+        }
+
+        messageUtil.send(request.getPhoneNumber(), count);
     }
 }

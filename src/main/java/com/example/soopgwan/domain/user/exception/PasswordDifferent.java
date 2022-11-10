@@ -5,7 +5,7 @@ import com.example.soopgwan.global.error.ErrorCode;
 
 public class PasswordDifferent extends CustomException {
 
-    public static final PasswordDifferent EXCEPTION =
+    public static final CustomException EXCEPTION =
             new PasswordDifferent();
 
     private PasswordDifferent() {

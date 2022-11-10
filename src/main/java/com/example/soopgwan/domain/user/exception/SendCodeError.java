@@ -3,12 +3,12 @@ package com.example.soopgwan.domain.user.exception;
 import com.example.soopgwan.global.error.CustomException;
 import com.example.soopgwan.global.error.ErrorCode;
 
-public class PasswordMisMatch extends CustomException {
+public class SendCodeError extends CustomException {
 
     public static final CustomException EXCEPTION =
-            new PasswordMisMatch();
+            new SendCodeError();
 
-    private PasswordMisMatch() {
-        super(ErrorCode.PASSWORD_MISMATCH);
+    private SendCodeError() {
+        super(ErrorCode.SEND_CODE_ERROR);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.soopgwan.infrastructure.utils;
 
+import com.example.soopgwan.domain.user.exception.SendCodeError;
 import com.example.soopgwan.domain.user.persistence.VerifyCode;
 import com.example.soopgwan.domain.user.persistence.repository.VerifyCodeRepository;
 import com.example.soopgwan.infrastructure.CoolsmsProperties;
@@ -46,7 +47,7 @@ public class MessageUtil {
 
             verifyCodeRepository.save(verifyCode);
         } catch (CoolsmsException e) {
-            // TODO Error 띄우기
+            throw SendCodeError.EXCEPTION;
         }
     }
 }

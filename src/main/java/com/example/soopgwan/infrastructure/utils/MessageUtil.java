@@ -20,11 +20,11 @@ public class MessageUtil {
     public void send(String phoneNumber, Integer count) throws CoolsmsException {
         net.nurigo.java_sdk.api.Message coolsms = new net.nurigo.java_sdk.api.Message(coolsmsProperties.getApiKey(), coolsmsProperties.getApiSecret());
 
-        String code = "";
+        StringBuilder code = new StringBuilder();
         SecureRandom random = new SecureRandom();
 
         for (int i = 0; i < 4; i++) {
-            code += random.nextInt(10);
+            code.append(random.nextInt(10));
         }
 
         HashMap<String, String> params = new HashMap<>();
@@ -37,7 +37,7 @@ public class MessageUtil {
 
         VerifyCode verifyCode = VerifyCode.builder()
                 .phoneNumber(phoneNumber)
-                .code(code)
+                .code(code.toString())
                 .count(count + 1)
                 .ttl(300)
                 .build();

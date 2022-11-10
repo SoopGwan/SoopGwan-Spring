@@ -22,7 +22,8 @@ public enum ErrorCode {
 
     TOO_MANY_SEND_CODE(429, "너무 많은 인증코드 요청"),
 
-    INTERNAL_SERVER_ERROR(500, "서버 에러");
+    INTERNAL_SERVER_ERROR(500, "서버 에러"),
+    SEND_CODE_ERROR(500, "Coolsms 에러");
 
     private final int statusCode;
     private final String message;

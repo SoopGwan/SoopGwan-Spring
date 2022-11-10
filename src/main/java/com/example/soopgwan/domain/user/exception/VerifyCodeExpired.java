@@ -8,7 +8,7 @@ public class VerifyCodeExpired extends CustomException {
     public static final CustomException EXCEPTION =
             new VerifyCodeExpired();
 
-    private VerifyCodeExpired(){
+    private VerifyCodeExpired() {
         super(ErrorCode.VERIFY_CODE_EXPIRED);
     }
 }

@@ -18,7 +18,6 @@ public class VerifyCode {
     @Id
     private String phoneNumber;
 
-
     private String code;
 
     private Integer count;

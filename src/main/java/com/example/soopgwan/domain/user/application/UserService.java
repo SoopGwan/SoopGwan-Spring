@@ -89,7 +89,7 @@ public class UserService {
 
     public void verifyCode(VerifyCodeRequest request) {
         VerifyCode verifyCode = verifyCodeRepository.findById(request.getPhoneNumber())
-                .orElseThrow(() -> VerifyCodeDifferent.EXCEPTION);
+                .orElseThrow(() -> VerifyCodeExpired.EXCEPTION);
 
         if (!verifyCode.getCode().equals(request.getCode())) {
             throw VerifyCodeDifferent.EXCEPTION;

@@ -5,7 +5,7 @@ import com.example.soopgwan.global.error.ErrorCode;
 
 public class PasswordMisMatch extends CustomException {
 
-    public static final PasswordMisMatch EXCEPTION =
+    public static final CustomException EXCEPTION =
             new PasswordMisMatch();
 
     private PasswordMisMatch() {

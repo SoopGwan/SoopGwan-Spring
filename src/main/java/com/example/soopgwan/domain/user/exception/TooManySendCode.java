@@ -5,7 +5,7 @@ import com.example.soopgwan.global.error.ErrorCode;
 
 public class TooManySendCode extends CustomException {
 
-    public static final TooManySendCode EXCEPTION =
+    public static final CustomException EXCEPTION =
             new TooManySendCode();
 
     private TooManySendCode() {

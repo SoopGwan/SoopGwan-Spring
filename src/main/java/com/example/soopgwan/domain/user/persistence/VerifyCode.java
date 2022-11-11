@@ -22,6 +22,8 @@ public class VerifyCode {
 
     private Integer count;
 
+    private String type;
+
     @TimeToLive
     private long ttl;
 }

@@ -2,17 +2,11 @@ package com.example.soopgwan.domain.user.presentation;
 
 import com.example.soopgwan.domain.user.application.UserService;
 import com.example.soopgwan.domain.user.presentation.dto.request.*;
+import com.example.soopgwan.domain.user.presentation.dto.response.ResetPasswordResponse;
 import com.example.soopgwan.domain.user.presentation.dto.response.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -57,5 +51,11 @@ public class UserController {
     @PostMapping("/verify")
     public void verifyCode(@RequestBody @Valid VerifyCodeRequest request) {
         userService.verifyCode(request);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/reset")
+    public ResetPasswordResponse resetPassword(@RequestBody @Valid ResetPasswordRequest request) {
+        return userService.resetPassword(request);
     }
 }

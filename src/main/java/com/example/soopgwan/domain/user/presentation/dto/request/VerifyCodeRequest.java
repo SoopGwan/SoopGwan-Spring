@@ -15,6 +15,9 @@ public class VerifyCodeRequest {
     private String phoneNumber;
 
     @NotBlank
+    private String type;
+
+    @NotBlank
     @Size(min = 4, max = 4)
     private String code;
 }

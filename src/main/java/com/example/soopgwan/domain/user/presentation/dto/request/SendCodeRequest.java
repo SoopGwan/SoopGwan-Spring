@@ -13,4 +13,7 @@ public class SendCodeRequest {
     @NotBlank
     @Size(min = 11, max = 11)
     private String phoneNumber;
+
+    @NotBlank
+    private String type;
 }

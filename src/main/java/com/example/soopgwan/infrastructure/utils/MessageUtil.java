@@ -19,7 +19,7 @@ public class MessageUtil {
     private final CoolsmsProperties coolsmsProperties;
     private final VerifyCodeRepository verifyCodeRepository;
 
-    public void send(String phoneNumber, Integer count) {
+    public void send(String phoneNumber, Integer count, String type) {
         try {
             Message sms = new Message(coolsmsProperties.getApiKey(), coolsmsProperties.getApiSecret());
 
@@ -42,6 +42,7 @@ public class MessageUtil {
                     .phoneNumber(phoneNumber)
                     .code(code.toString())
                     .count(count + 1)
+                    .type(type)
                     .ttl(300)
                     .build();
 

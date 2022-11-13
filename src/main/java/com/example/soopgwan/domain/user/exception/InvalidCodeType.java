@@ -3,12 +3,12 @@ package com.example.soopgwan.domain.user.exception;
 import com.example.soopgwan.global.error.CustomException;
 import com.example.soopgwan.global.error.ErrorCode;
 
-public class CodeTypeDifferent extends CustomException {
+public class InvalidCodeType extends CustomException {
 
     public static final CustomException EXCEPTION =
-            new CodeTypeDifferent();
+            new InvalidCodeType();
 
-    private CodeTypeDifferent() {
-        super(ErrorCode.CODE_TYPE_DIFFERENT);
+    private InvalidCodeType() {
+        super(ErrorCode.INVALID_CODE_TYPE);
     }
 }

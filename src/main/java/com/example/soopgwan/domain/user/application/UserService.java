@@ -112,10 +112,15 @@ public class UserService {
         User user = userRepository.findByPhoneNumber(request.getPhoneNumber())
                 .orElseThrow(() -> UserNotFound.EXCEPTION);
 
-        String password = RandomStringUtils.randomNumeric(8);
+        StringBuilder password = new StringBuilder();
+        SecureRandom random = new SecureRandom();
 
-        user.changePassword(passwordEncoder.encode(password));
+        for (int i = 0; i < 8; i++) {
+            password.append(charSet[random.nextInt(charSet.length)]);
+        }
 
-        return new ResetPasswordResponse(password);
+        user.changePassword(passwordEncoder.encode(password.toString()));
+
+        return new ResetPasswordResponse(password.toString());
     }
 }

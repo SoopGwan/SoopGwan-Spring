@@ -12,6 +12,7 @@ import com.example.soopgwan.global.security.jwt.JwtTokenProvider;
 import com.example.soopgwan.global.util.UserUtil;
 import com.example.soopgwan.infrastructure.utils.MessageUtil;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -102,7 +103,7 @@ public class UserService {
         }
 
         if (!verifyCode.getType().equals(request.getType())) {
-            throw CodeTypeDifferent.EXCEPTION;
+            throw InvalidCodeType.EXCEPTION;
         }
     }
 
@@ -111,15 +112,10 @@ public class UserService {
         User user = userRepository.findByPhoneNumber(request.getPhoneNumber())
                 .orElseThrow(() -> UserNotFound.EXCEPTION);
 
-        StringBuilder password = new StringBuilder();
-        SecureRandom random = new SecureRandom();
+        String password = RandomStringUtils.randomAlphanumeric(8);
 
-        for (int i = 0; i < 8; i++) {
-            password.append(charSet[random.nextInt(charSet.length)]);
-        }
+        user.changePassword(passwordEncoder.encode(password));
 
-        user.changePassword(passwordEncoder.encode(password.toString()));
-
-        return new ResetPasswordResponse(password.toString());
+        return new ResetPasswordResponse(password);
     }
 }

@@ -12,7 +12,6 @@ import com.example.soopgwan.global.security.jwt.JwtTokenProvider;
 import com.example.soopgwan.global.util.UserUtil;
 import com.example.soopgwan.infrastructure.utils.MessageUtil;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

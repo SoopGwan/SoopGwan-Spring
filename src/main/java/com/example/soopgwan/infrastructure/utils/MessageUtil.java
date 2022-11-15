@@ -3,6 +3,7 @@ package com.example.soopgwan.infrastructure.utils;
 import com.example.soopgwan.domain.user.exception.SendCodeError;
 import com.example.soopgwan.domain.user.persistence.VerifyCode;
 import com.example.soopgwan.domain.user.persistence.repository.VerifyCodeRepository;
+import com.example.soopgwan.global.enums.CodeType;
 import com.example.soopgwan.infrastructure.CoolsmsProperties;
 import lombok.RequiredArgsConstructor;
 import net.nurigo.java_sdk.api.Message;
@@ -19,7 +20,7 @@ public class MessageUtil {
     private final CoolsmsProperties coolsmsProperties;
     private final VerifyCodeRepository verifyCodeRepository;
 
-    public void send(String phoneNumber, Integer count) {
+    public void send(String phoneNumber, Integer count, CodeType type) {
         try {
             Message sms = new Message(coolsmsProperties.getApiKey(), coolsmsProperties.getApiSecret());
 
@@ -42,6 +43,7 @@ public class MessageUtil {
                     .phoneNumber(phoneNumber)
                     .code(code.toString())
                     .count(count + 1)
+                    .type(type)
                     .ttl(300)
                     .build();
 

@@ -1,5 +1,6 @@
 package com.example.soopgwan.domain.user.persistence;
 
+import com.example.soopgwan.global.enums.CodeType;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
@@ -21,6 +22,8 @@ public class VerifyCode {
     private String code;
 
     private Integer count;
+
+    private CodeType type;
 
     @TimeToLive
     private long ttl;

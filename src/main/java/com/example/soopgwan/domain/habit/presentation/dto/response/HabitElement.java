@@ -1,12 +1,12 @@
 package com.example.soopgwan.domain.habit.presentation.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDate;
 
+@Getter
 @Builder
-@AllArgsConstructor
 public class HabitElement {
 
     private final Long id;

@@ -16,6 +16,7 @@ public enum ErrorCode {
 
     VERIFY_CODE_EXPIRED(403, "인증 코드가 만료됨"),
     INVALID_CODE_TYPE(403, "인증 코드 타입이 다름"),
+    USER_ACCESS_FORBIDDEN(403, "유저 접근 권한 없음"),
 
     USER_NOT_FOUND(404, "유저를 찾을 수 없음"),
     HABIT_NOT_FOUND(404, "습관을 찾을 수 없음"),

@@ -2,6 +2,7 @@ package com.example.soopgwan.domain.habit.application;
 
 import com.example.soopgwan.domain.habit.application.enums.Date;
 import com.example.soopgwan.domain.habit.exception.HabitNotFound;
+import com.example.soopgwan.domain.habit.exception.UserAccessForbidden;
 import com.example.soopgwan.domain.habit.persistence.HabitSuccess;
 import com.example.soopgwan.domain.habit.persistence.WeekHabit;
 import com.example.soopgwan.domain.habit.persistence.repository.HabitSuccessRepository;
@@ -16,6 +17,7 @@ import com.example.soopgwan.domain.user.persistence.User;
 import com.example.soopgwan.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -31,6 +33,7 @@ public class HabitService {
     private final HabitSuccessRepository habitSuccessRepository;
     private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
 
+    @Transactional
     public void createHabit(CreateHabitRequest request) {
         User user = userUtil.getCurrentUser();
 
@@ -44,16 +47,30 @@ public class HabitService {
         weekHabitRepository.save(weekHabit);
     }
 
+    @Transactional
     public void deleteHabit(Long habitId) {
+        User user = userUtil.getCurrentUser();
+
         WeekHabit weekHabit = weekHabitRepository.findById(habitId)
                 .orElseThrow(() -> HabitNotFound.EXCEPTION);
+
+        if (!user.equals(weekHabit.getUser())) {
+            throw UserAccessForbidden.EXCEPTION;
+        }
 
         weekHabitRepository.delete(weekHabit);
     }
 
+    @Transactional
     public void checkHabitSuccess(Long habitId) {
+        User user = userUtil.getCurrentUser();
+
         WeekHabit weekHabit = weekHabitRepository.findById(habitId)
                 .orElseThrow(() -> HabitNotFound.EXCEPTION);
+
+        if (!user.equals(weekHabit.getUser())) {
+            throw UserAccessForbidden.EXCEPTION;
+        }
 
         LocalDate date = LocalDate.now();
 
@@ -70,20 +87,30 @@ public class HabitService {
         }
     }
 
+    @Transactional
     public void checkWeekHabit(CheckWeekHabitRequest request) {
-        List<WeekHabit> weekHabitList = weekHabitRepository.findAllByStartAtBetween(
+        User user = userUtil.getCurrentUser();
+
+        List<WeekHabit> weekHabitList = weekHabitRepository.findAllByUserAndStartAtBetween(
+                        user,
                         getStartAtAndEndAt(Date.START_AT),
                         getStartAtAndEndAt(Date.END_AT)
                 )
                 .stream()
                 .map(weekHabit -> weekHabit.setStatus(request.getStatus()))
                 .toList();
-
         weekHabitRepository.saveAll(weekHabitList);
     }
 
+    @Transactional(readOnly = true)
     public ReferWeekHabitResponse referWeekHabit() {
-        List<WeekHabitElement> weekHabitElementList = weekHabitRepository.findAllByStartAtBetween(getStartAtAndEndAt(Date.START_AT), getStartAtAndEndAt(Date.END_AT))
+        User user = userUtil.getCurrentUser();
+
+        List<WeekHabitElement> weekHabitElementList = weekHabitRepository.findAllByUserAndStartAtBetween(
+                        user,
+                        getStartAtAndEndAt(Date.START_AT),
+                        getStartAtAndEndAt(Date.END_AT)
+                )
                 .stream()
                 .map(weekHabit -> {
                     Boolean status = habitSuccessRepository.existsByWeekHabitAndSuccessAt(weekHabit, LocalDate.now());
@@ -94,8 +121,11 @@ public class HabitService {
         return new ReferWeekHabitResponse(weekHabitElementList);
     }
 
+    @Transactional(readOnly = true)
     public HabitResponse getAllHabit() {
-        List<HabitElement> habitList = weekHabitRepository.findAll()
+        User user = userUtil.getCurrentUser();
+
+        List<HabitElement> habitList = weekHabitRepository.findAllByUser(user)
                 .stream()
                 .map(weekHabit -> HabitElement.builder()
                         .id(weekHabit.getId())

@@ -54,7 +54,7 @@ public class HabitService {
         WeekHabit weekHabit = weekHabitRepository.findById(habitId)
                 .orElseThrow(() -> HabitNotFound.EXCEPTION);
 
-        if (!user.getId().equals(weekHabit.getUser().getId())) {
+        if (!user.equals(weekHabit.getUser())) {
             throw UserAccessForbidden.EXCEPTION;
         }
 
@@ -68,7 +68,7 @@ public class HabitService {
         WeekHabit weekHabit = weekHabitRepository.findById(habitId)
                 .orElseThrow(() -> HabitNotFound.EXCEPTION);
 
-        if (!user.getId().equals(weekHabit.getUser().getId())) {
+        if (!user.equals(weekHabit.getUser())) {
             throw UserAccessForbidden.EXCEPTION;
         }
 
@@ -125,9 +125,7 @@ public class HabitService {
     public HabitResponse getAllHabit() {
         User user = userUtil.getCurrentUser();
 
-        List<HabitElement> habitList = weekHabitRepository.findAllByUser(
-                        user
-                )
+        List<HabitElement> habitList = weekHabitRepository.findAllByUser(user)
                 .stream()
                 .map(weekHabit -> HabitElement.builder()
                         .id(weekHabit.getId())

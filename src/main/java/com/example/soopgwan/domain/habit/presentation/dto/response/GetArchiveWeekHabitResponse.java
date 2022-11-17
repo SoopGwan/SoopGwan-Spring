@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class ReferWeekHabitResponse {
+public class GetArchiveWeekHabitResponse {
 
-    private final List<WeekHabitElement> weekHabitElementList;
+    private final List<ArchiveWeekHabitElement> archiveWeekHabits;
 }

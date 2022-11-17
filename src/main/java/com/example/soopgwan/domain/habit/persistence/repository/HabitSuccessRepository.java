@@ -9,6 +9,7 @@ import java.time.LocalDate;
 
 @Repository
 public interface HabitSuccessRepository extends JpaRepository<HabitSuccess, Long> {
-
     Boolean existsByWeekHabitAndSuccessAt(WeekHabit weekHabit, LocalDate successAt);
+
+    Long countHabitSuccessByWeekHabit(WeekHabit weekHabit);
 }

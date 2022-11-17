@@ -8,8 +8,6 @@ import lombok.Getter;
 public class WeekHabitElement {
 
     private final Long id;
-
     private final String content;
-
     private final Boolean successStatus;
 }

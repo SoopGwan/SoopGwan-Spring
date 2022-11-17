@@ -9,10 +9,7 @@ import com.example.soopgwan.domain.habit.persistence.repository.HabitSuccessRepo
 import com.example.soopgwan.domain.habit.persistence.repository.WeekHabitRepository;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CheckWeekHabitRequest;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CreateHabitRequest;
-import com.example.soopgwan.domain.habit.presentation.dto.response.HabitElement;
-import com.example.soopgwan.domain.habit.presentation.dto.response.HabitResponse;
-import com.example.soopgwan.domain.habit.presentation.dto.response.ReferWeekHabitResponse;
-import com.example.soopgwan.domain.habit.presentation.dto.response.WeekHabitElement;
+import com.example.soopgwan.domain.habit.presentation.dto.response.*;
 import com.example.soopgwan.domain.user.persistence.User;
 import com.example.soopgwan.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
@@ -103,10 +100,10 @@ public class HabitService {
     }
 
     @Transactional(readOnly = true)
-    public ReferWeekHabitResponse referWeekHabit() {
+    public GetWeekHabitResponse getWeekHabit() {
         User user = userUtil.getCurrentUser();
 
-        List<WeekHabitElement> weekHabitElementList = weekHabitRepository.findAllByUserAndStartAtBetween(
+        List<WeekHabitElement> weekHabits = weekHabitRepository.findAllByUserAndStartAtBetween(
                         user,
                         getStartAtAndEndAt(Date.START_AT),
                         getStartAtAndEndAt(Date.END_AT)
@@ -118,7 +115,7 @@ public class HabitService {
                 })
                 .toList();
 
-        return new ReferWeekHabitResponse(weekHabitElementList);
+        return new GetWeekHabitResponse(weekHabits);
     }
 
     @Transactional(readOnly = true)
@@ -136,6 +133,23 @@ public class HabitService {
                 .toList();
 
         return new HabitResponse(habitList);
+    }
+
+    @Transactional(readOnly = true)
+    public GetArchiveWeekHabitResponse getArchiveWeekHabit(LocalDate startAt, LocalDate endAt) {
+        User user = userUtil.getCurrentUser();
+
+        List<ArchiveWeekHabitElement> archiveWeekHabits = weekHabitRepository.findAllByUserAndStartAtBetween(
+                        user, startAt, endAt
+                )
+                .stream()
+                .map(weekHabit -> ArchiveWeekHabitElement.builder()
+                        .title(weekHabit.getContent())
+                        .count(habitSuccessRepository.countHabitSuccessByWeekHabit(weekHabit))
+                        .build())
+                .toList();
+
+        return new GetArchiveWeekHabitResponse(archiveWeekHabits);
     }
 
     private LocalDate getStartAtAndEndAt(Date date) {

@@ -1,0 +1,15 @@
+{
+    "AWSEBDockerrunVersion":"1",
+    "Image":{
+        "Name":"jeongdaehyun/soopgwan",
+        "Update": "true"
+    },
+
+    "Ports":[
+        {
+            "ContainerPort":8080,
+            "HostPort":8080
+        }
+    ]
+}
+

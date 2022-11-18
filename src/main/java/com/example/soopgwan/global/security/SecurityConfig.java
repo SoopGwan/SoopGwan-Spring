@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.PATCH, "/users/change").permitAll()
                 .antMatchers(HttpMethod.POST, "/users/verify").permitAll()
                 .antMatchers(HttpMethod.PUT, "/users/reset").permitAll()
+                .antMatchers(HttpMethod.GET, "/check").permitAll()
                 .anyRequest().authenticated()
 
                 .and()

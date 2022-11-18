@@ -1,10 +1,9 @@
 {
     "AWSEBDockerrunVersion":"1",
     "Image":{
-        "Name":"https://526992953312.dkr.ecr.ap-northeast-2.amazonaws.com/soopgwan:latest",
+        "Name":"https://526992953312.dkr.ecr.ap-northeast-2.amazonaws.com/soopgwan",
         "Update": "true"
     },
-
     "Ports":[
         {
             "ContainerPort":8080,
@@ -12,4 +11,3 @@
         }
     ]
 }
-

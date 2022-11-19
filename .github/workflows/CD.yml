@@ -68,8 +68,8 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          application_name: Soopgwan
-          environment_name: Soopgwan-env
+          application_name: Soopgwan-Server
+          environment_name: Soopgwanserver-env
           version_label: SoopGwan-${{steps.current-time.outputs.formattedTime}}
           region: ${{ secrets.AWS_REGION }}
           deployment_package: Dockerrun.aws.json

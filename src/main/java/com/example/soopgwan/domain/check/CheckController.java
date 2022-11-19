@@ -8,6 +8,6 @@ public class CheckController {
 
     @GetMapping
     public String healthCheck() {
-        return "Health Check!";
+        return "Health Check ECR!";
     }
 }

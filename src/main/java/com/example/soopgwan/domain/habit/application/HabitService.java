@@ -9,7 +9,12 @@ import com.example.soopgwan.domain.habit.persistence.repository.HabitSuccessRepo
 import com.example.soopgwan.domain.habit.persistence.repository.WeekHabitRepository;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CheckWeekHabitRequest;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CreateHabitRequest;
-import com.example.soopgwan.domain.habit.presentation.dto.response.*;
+import com.example.soopgwan.domain.habit.presentation.dto.response.ArchiveWeekHabitElement;
+import com.example.soopgwan.domain.habit.presentation.dto.response.GetArchiveWeekHabitResponse;
+import com.example.soopgwan.domain.habit.presentation.dto.response.GetWeekHabitResponse;
+import com.example.soopgwan.domain.habit.presentation.dto.response.HabitElement;
+import com.example.soopgwan.domain.habit.presentation.dto.response.HabitResponse;
+import com.example.soopgwan.domain.habit.presentation.dto.response.WeekHabitElement;
 import com.example.soopgwan.domain.user.persistence.User;
 import com.example.soopgwan.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
@@ -110,10 +115,18 @@ public class HabitService {
                 )
                 .stream()
                 .map(weekHabit -> {
-                    Boolean status = habitSuccessRepository.existsByWeekHabitAndSuccessAt(weekHabit, LocalDate.now());
-                    return new WeekHabitElement(weekHabit.getId(), weekHabit.getContent(), status);
-                })
-                .toList();
+                            Integer successCount = habitSuccessRepository
+                                    .countByWeekHabitAndSuccessAt(weekHabit, LocalDate.now());
+                            Boolean status = successCount == 0 ? Boolean.FALSE : Boolean.TRUE;
+
+                            return WeekHabitElement.builder()
+                                    .id(weekHabit.getId())
+                                    .content(weekHabit.getContent())
+                                    .successCount(successCount)
+                                    .successStatus(status)
+                                    .build();
+                        }
+                ).toList();
 
         return new GetWeekHabitResponse(weekHabits);
     }

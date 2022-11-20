@@ -11,5 +11,7 @@ import java.time.LocalDate;
 public interface HabitSuccessRepository extends JpaRepository<HabitSuccess, Long> {
     Boolean existsByWeekHabitAndSuccessAt(WeekHabit weekHabit, LocalDate successAt);
 
+    Integer countByWeekHabitAndSuccessAt(WeekHabit weekHabit, LocalDate successAt);
+
     Long countHabitSuccessByWeekHabit(WeekHabit weekHabit);
 }

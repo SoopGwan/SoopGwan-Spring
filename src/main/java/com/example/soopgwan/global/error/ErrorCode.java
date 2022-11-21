@@ -21,7 +21,7 @@ public enum ErrorCode {
     USER_NOT_FOUND(404, "유저를 찾을 수 없음"),
     HABIT_NOT_FOUND(404, "습관을 찾을 수 없음"),
 
-    HABIT_ALREADY_EXISTS(409, "습관이 이미 존재함"),
+    EXISTS_HABIT_STATUS(409, "이미 평가한 습관이 존재함"),
 
     USER_EXISTS(409, "유저 아이디 중복"),
 

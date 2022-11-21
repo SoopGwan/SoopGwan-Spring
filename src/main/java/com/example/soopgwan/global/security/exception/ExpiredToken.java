@@ -8,6 +8,6 @@ public class ExpiredToken extends CustomException {
     public static final CustomException EXCEPTION = new ExpiredToken();
 
     private ExpiredToken() {
-        super(ErrorCode.INTERNAL_SERVER_ERROR);
+        super(ErrorCode.EXPIRED_TOKEN);
     }
 }

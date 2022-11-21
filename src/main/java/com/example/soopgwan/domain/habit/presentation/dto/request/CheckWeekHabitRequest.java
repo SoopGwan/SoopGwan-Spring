@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 public class CheckWeekHabitRequest {
 
     @NotNull
-    private Integer id;
+    private Long id;
 
     @NotNull
     private Integer status;

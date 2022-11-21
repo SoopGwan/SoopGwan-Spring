@@ -22,22 +22,22 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-@Table(name = "tbl_week_habit")
+@Table(name = "tbl_week_habit_status")
 @Entity
-public class WeekHabit {
+public class WeekHabitStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(columnDefinition = "VARCHAR(200)", nullable = false)
-    private String content;
 
     @Column(columnDefinition = "DATE", nullable = false)
     private LocalDate startAt;
 
     @Column(columnDefinition = "DATE", nullable = false)
     private LocalDate endAt;
+
+    @Column(columnDefinition = "INT(5) default 0", nullable = false)
+    private Integer status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

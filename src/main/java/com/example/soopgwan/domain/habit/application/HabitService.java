@@ -1,12 +1,15 @@
 package com.example.soopgwan.domain.habit.application;
 
 import com.example.soopgwan.domain.habit.application.enums.Date;
+import com.example.soopgwan.domain.habit.exception.ExistsHabitStatus;
 import com.example.soopgwan.domain.habit.exception.HabitNotFound;
 import com.example.soopgwan.domain.habit.exception.UserAccessForbidden;
 import com.example.soopgwan.domain.habit.persistence.HabitSuccess;
 import com.example.soopgwan.domain.habit.persistence.WeekHabit;
+import com.example.soopgwan.domain.habit.persistence.WeekHabitStatus;
 import com.example.soopgwan.domain.habit.persistence.repository.HabitSuccessRepository;
 import com.example.soopgwan.domain.habit.persistence.repository.WeekHabitRepository;
+import com.example.soopgwan.domain.habit.persistence.repository.WeekHabitStatusRepository;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CheckWeekHabitRequest;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CreateHabitRequest;
 import com.example.soopgwan.domain.habit.presentation.dto.response.ArchiveWeekHabitElement;
@@ -33,6 +36,7 @@ public class HabitService {
     private final WeekHabitRepository weekHabitRepository;
     private final UserUtil userUtil;
     private final HabitSuccessRepository habitSuccessRepository;
+    private final WeekHabitStatusRepository weekHabitStatusRepository;
     private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
 
     @Transactional
@@ -92,16 +96,20 @@ public class HabitService {
     @Transactional
     public void checkWeekHabit(CheckWeekHabitRequest request) {
         User user = userUtil.getCurrentUser();
+        LocalDate startAt = getStartAtAndEndAt(Date.START_AT);
+        LocalDate endAt = getStartAtAndEndAt(Date.END_AT);
 
-        List<WeekHabit> weekHabitList = weekHabitRepository.findAllByUserAndStartAtBetween(
-                        user,
-                        getStartAtAndEndAt(Date.START_AT),
-                        getStartAtAndEndAt(Date.END_AT)
-                )
-                .stream()
-                .map(weekHabit -> weekHabit.setStatus(request.getStatus()))
-                .toList();
-        weekHabitRepository.saveAll(weekHabitList);
+        if (weekHabitStatusRepository.existsByUserAndStartAtBetween(user, startAt, endAt)) {
+            throw ExistsHabitStatus.EXCEPTION;
+        }
+
+        WeekHabitStatus status = WeekHabitStatus.builder()
+                .startAt(startAt)
+                .endAt(endAt)
+                .status(request.getStatus())
+                .user(user)
+                .build();
+        weekHabitStatusRepository.save(status);
     }
 
     @Transactional(readOnly = true)
@@ -141,7 +149,11 @@ public class HabitService {
                         .id(weekHabit.getId())
                         .startAt(weekHabit.getStartAt())
                         .endAt(weekHabit.getEndAt())
-                        .level(weekHabit.getStatus())
+                        .level(
+                                weekHabitStatusRepository.countByUserAndStartAtBetween(
+                                        user, weekHabit.getStartAt(), weekHabit.getEndAt()
+                                )
+                        )
                         .build())
                 .toList();
 
@@ -151,6 +163,9 @@ public class HabitService {
     @Transactional(readOnly = true)
     public GetArchiveWeekHabitResponse getArchiveWeekHabit(LocalDate startAt, LocalDate endAt) {
         User user = userUtil.getCurrentUser();
+
+        WeekHabitStatus status = weekHabitStatusRepository.findByUserAndStartAtBetween(user, startAt, endAt)
+                .orElseGet(() -> WeekHabitStatus.builder().status(0).build());
 
         List<ArchiveWeekHabitElement> archiveWeekHabits = weekHabitRepository.findAllByUserAndStartAtBetween(
                         user, startAt, endAt
@@ -162,7 +177,7 @@ public class HabitService {
                         .build())
                 .toList();
 
-        return new GetArchiveWeekHabitResponse(archiveWeekHabits);
+        return new GetArchiveWeekHabitResponse(archiveWeekHabits, status.getStatus());
     }
 
     private LocalDate getStartAtAndEndAt(Date date) {

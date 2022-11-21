@@ -9,5 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 public class GetArchiveWeekHabitResponse {
 
-    private final List<ArchiveWeekHabitElement> archiveWeekHabits;
+    private final List<ArchiveWeekHabitElement> habits;
+    private final Integer status;
 }

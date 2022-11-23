@@ -89,7 +89,7 @@ public class HabitService {
         LocalDate startAt = getStartAtAndEndAt(Date.START_AT);
         LocalDate endAt = getStartAtAndEndAt(Date.END_AT);
 
-        if (weekHabitStatusRepository.existsByUserAndStartAtBetween(user, startAt, endAt)) {
+        if (weekHabitStatusRepository.existsByUserAndStartAtAndEndAt(user, startAt, endAt)) {
             throw ExistsHabitStatus.EXCEPTION;
         }
 
@@ -151,10 +151,6 @@ public class HabitService {
                 .mapToInt(WeekHabit::getSuccessCount)
                 .sum();
 
-        System.out.println(startAt);
-        System.out.println(endAt);
-        System.out.println(successCount);
-
         if (successCount >= 1 && successCount <= 4) {
             result = 1;
         } else if (successCount >= 5 && successCount <= 10) {
@@ -172,7 +168,7 @@ public class HabitService {
     public GetArchiveWeekHabitResponse getArchiveWeekHabit(LocalDate startAt, LocalDate endAt) {
         User user = userUtil.getCurrentUser();
 
-        WeekHabitStatus status = weekHabitStatusRepository.findByUserAndStartAtBetween(user, startAt, endAt)
+        WeekHabitStatus status = weekHabitStatusRepository.findByUserAndStartAtAndEndAt(user, startAt, endAt)
                 .orElseGet(() -> WeekHabitStatus.builder().status(0).build());
 
         List<ArchiveWeekHabitElement> archiveWeekHabits = weekHabitRepository.findAllByUserAndStartAtAndEndAt(

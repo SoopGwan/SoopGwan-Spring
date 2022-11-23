@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface WeekHabitRepository extends JpaRepository<WeekHabit, Long>, WeekHabitRepositoryCustom {
 
-    List<WeekHabit> findAllByUserAndStartAtBetween(User user, LocalDate startAt, LocalDate endAt);
+    List<WeekHabit> findAllByUserAndStartAtAndEndAt(User user, LocalDate startAt, LocalDate endAt);
 
 }

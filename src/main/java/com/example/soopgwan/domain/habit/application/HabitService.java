@@ -106,7 +106,7 @@ public class HabitService {
     public GetWeekHabitResponse getWeekHabit() {
         User user = userUtil.getCurrentUser();
 
-        List<WeekHabitElement> weekHabits = weekHabitRepository.findAllByUserAndStartAtBetween(
+        List<WeekHabitElement> weekHabits = weekHabitRepository.findAllByUserAndStartAtAndEndAt(
                         user, getStartAtAndEndAt(Date.START_AT), getStartAtAndEndAt(Date.END_AT)
                 )
                 .stream()
@@ -146,10 +146,14 @@ public class HabitService {
         int result = 0;
 
         int successCount = weekHabitRepository
-                .findAllByUserAndStartAtBetween(user, startAt, endAt)
+                .findAllByUserAndStartAtAndEndAt(user, startAt, endAt)
                 .stream()
                 .mapToInt(WeekHabit::getSuccessCount)
                 .sum();
+
+        System.out.println(startAt);
+        System.out.println(endAt);
+        System.out.println(successCount);
 
         if (successCount >= 1 && successCount <= 4) {
             result = 1;
@@ -171,7 +175,7 @@ public class HabitService {
         WeekHabitStatus status = weekHabitStatusRepository.findByUserAndStartAtBetween(user, startAt, endAt)
                 .orElseGet(() -> WeekHabitStatus.builder().status(0).build());
 
-        List<ArchiveWeekHabitElement> archiveWeekHabits = weekHabitRepository.findAllByUserAndStartAtBetween(
+        List<ArchiveWeekHabitElement> archiveWeekHabits = weekHabitRepository.findAllByUserAndStartAtAndEndAt(
                         user, startAt, endAt
                 )
                 .stream()

@@ -8,5 +8,5 @@ import lombok.Getter;
 public class ArchiveWeekHabitElement {
 
     private final String title;
-    private final Long count;
+    private final Integer count;
 }

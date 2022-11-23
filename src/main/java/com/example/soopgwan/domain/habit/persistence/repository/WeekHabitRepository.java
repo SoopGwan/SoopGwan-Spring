@@ -9,11 +9,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface WeekHabitRepository extends JpaRepository<WeekHabit, Long> {
+public interface WeekHabitRepository extends JpaRepository<WeekHabit, Long>, WeekHabitRepositoryCustom {
 
     List<WeekHabit> findAllByUserAndStartAtBetween(User user, LocalDate startAt, LocalDate endAt);
 
-    List<WeekHabit> findAllByUser(User user);
-
-    Integer countByUserAndStartAtBetween(User user, LocalDate startAt, LocalDate endAt);
 }

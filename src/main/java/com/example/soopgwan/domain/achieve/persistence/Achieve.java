@@ -1,5 +1,6 @@
 package com.example.soopgwan.domain.achieve.persistence;
 
+import com.example.soopgwan.domain.achieve.enums.AchieveType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,8 +27,17 @@ public class Achieve {
     private Long id;
 
     @Column(columnDefinition = "VARCHAR(200)", nullable = false)
-    private String unlockCondition;
+    private String content;
 
-    @Column(columnDefinition = "VARCHAR(10)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
+    private String rarityType;
+
+    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
+    private String productType;
+
+    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     private String title;
+
+    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
+    private AchieveType code;
 }

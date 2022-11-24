@@ -57,5 +57,7 @@ public class AchieveService {
                         .content(achieve.getContent())
                         .build())
                 .collect(Collectors.toList()));
-    };
+    }
+
+    ;
 }

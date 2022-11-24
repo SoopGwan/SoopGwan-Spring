@@ -12,7 +12,7 @@ import static com.example.soopgwan.domain.achieve.persistence.QAchieveSuccess.ac
 import static com.example.soopgwan.domain.user.persistence.QUser.user;
 
 @RequiredArgsConstructor
-public class CustomAchieveRepositoryImpl implements CustomAchieveRepository{
+public class CustomAchieveRepositoryImpl implements CustomAchieveRepository {
 
     private final JPAQueryFactory query;
 

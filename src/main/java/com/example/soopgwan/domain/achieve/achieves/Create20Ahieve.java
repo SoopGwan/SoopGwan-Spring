@@ -10,7 +10,7 @@ import com.example.soopgwan.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class Create20Ahieve implements BaseAchieve{
+public class Create20Ahieve implements BaseAchieve {
 
     private final WeekHabitRepository weekHabitRepository;
     private final AchieveRepository achieveRepository;

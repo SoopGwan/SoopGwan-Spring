@@ -4,12 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class MyAchieveLIstResponse {
+public class MyAchieveListResponse {
     private final List<MyAchieve> myAchieveList;
 
     @Getter

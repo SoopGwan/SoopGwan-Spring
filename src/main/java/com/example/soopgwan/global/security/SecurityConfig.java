@@ -41,6 +41,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST, "/users/verify").permitAll()
                 .antMatchers(HttpMethod.PUT, "/users/reset").permitAll()
                 .antMatchers(HttpMethod.GET, "/").permitAll()
+                .antMatchers(HttpMethod.GET, "/achieve/").permitAll()
                 .anyRequest().authenticated()
 
                 .and()

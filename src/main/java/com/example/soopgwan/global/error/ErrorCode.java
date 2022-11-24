@@ -20,6 +20,8 @@ public enum ErrorCode {
 
     USER_NOT_FOUND(404, "유저를 찾을 수 없음"),
     HABIT_NOT_FOUND(404, "습관을 찾을 수 없음"),
+    ACHIEVE_TYPE_NOT_FOUND(404, "업적을 찾을 수 없음"),
+    ACHIEVE_NOT_FOUND(404, "업적을 찾을 수 없음"),
 
     EXISTS_HABIT_STATUS(409, "이미 평가한 습관이 존재함"),
 

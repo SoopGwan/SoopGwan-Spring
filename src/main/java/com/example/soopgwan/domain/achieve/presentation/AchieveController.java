@@ -1,7 +1,7 @@
 package com.example.soopgwan.domain.achieve.presentation;
 
 import com.example.soopgwan.domain.achieve.application.AchieveService;
-import com.example.soopgwan.domain.achieve.presentation.dto.response.MyAchieveLIstResponse;
+import com.example.soopgwan.domain.achieve.presentation.dto.response.MyAchieveListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ public class AchieveController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public MyAchieveLIstResponse getAchieve() {
+    public MyAchieveListResponse getAchieve() {
         return achieveService.execute();
     }
 }

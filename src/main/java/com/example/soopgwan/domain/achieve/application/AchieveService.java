@@ -58,6 +58,4 @@ public class AchieveService {
                         .build())
                 .toList());
     }
-
-    ;
 }

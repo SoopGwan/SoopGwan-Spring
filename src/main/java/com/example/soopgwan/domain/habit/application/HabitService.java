@@ -136,21 +136,15 @@ public class HabitService {
                 .map(weekHabitVO -> HabitElement.builder()
                         .startAt(weekHabitVO.getStartAt())
                         .endAt(weekHabitVO.getEndAt())
-                        .level(getLevel(user, weekHabitVO.getStartAt(), weekHabitVO.getEndAt()))
+                        .level(getLevel(weekHabitVO.getSuccessCount()))
                         .build())
                 .toList();
 
         return new HabitResponse(habitList);
     }
 
-    private Integer getLevel(User user, LocalDate startAt, LocalDate endAt) {
+    private Integer getLevel(Long successCount) {
         int result = 0;
-
-        int successCount = weekHabitRepository
-                .findAllByUserAndStartAtAndEndAt(user, startAt, endAt)
-                .stream()
-                .mapToInt(WeekHabit::getSuccessCount)
-                .sum();
 
         if (successCount >= 1 && successCount <= 4) {
             result = 1;

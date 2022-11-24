@@ -45,6 +45,7 @@ public class HabitService {
                 .content(request.getContent())
                 .startAt(getStartAtAndEndAt(Date.START_AT))
                 .endAt(getStartAtAndEndAt(Date.END_AT))
+                .successCount(0)
                 .user(user)
                 .build();
 

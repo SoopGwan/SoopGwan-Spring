@@ -39,7 +39,21 @@ public class WeekHabit {
     @Column(columnDefinition = "DATE", nullable = false)
     private LocalDate endAt;
 
+    @Column(columnDefinition = "DATE")
+    private LocalDate firstSuccessAt;
+
+    @Column(columnDefinition = "DATE")
+    private LocalDate lastSuccessAt;
+
+    @Column(columnDefinition = "INT default 0", nullable = false)
+    private Integer successCount;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public void check() {
+        this.lastSuccessAt = LocalDate.now();
+        this.successCount += 1;
+    }
 }

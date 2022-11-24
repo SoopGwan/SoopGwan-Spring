@@ -1,13 +1,12 @@
 package com.example.soopgwan.domain.habit.application;
 
 import com.example.soopgwan.domain.habit.application.enums.Date;
+import com.example.soopgwan.domain.habit.exception.AlreadyCheck;
 import com.example.soopgwan.domain.habit.exception.ExistsHabitStatus;
 import com.example.soopgwan.domain.habit.exception.HabitNotFound;
 import com.example.soopgwan.domain.habit.exception.UserAccessForbidden;
-import com.example.soopgwan.domain.habit.persistence.HabitSuccess;
 import com.example.soopgwan.domain.habit.persistence.WeekHabit;
 import com.example.soopgwan.domain.habit.persistence.WeekHabitStatus;
-import com.example.soopgwan.domain.habit.persistence.repository.HabitSuccessRepository;
 import com.example.soopgwan.domain.habit.persistence.repository.WeekHabitRepository;
 import com.example.soopgwan.domain.habit.persistence.repository.WeekHabitStatusRepository;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CheckWeekHabitRequest;
@@ -35,7 +34,6 @@ public class HabitService {
 
     private final WeekHabitRepository weekHabitRepository;
     private final UserUtil userUtil;
-    private final HabitSuccessRepository habitSuccessRepository;
     private final WeekHabitStatusRepository weekHabitStatusRepository;
     private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
 
@@ -78,19 +76,11 @@ public class HabitService {
             throw UserAccessForbidden.EXCEPTION;
         }
 
-        LocalDate date = LocalDate.now();
-
-        Boolean existsByWeekHabitAndSuccessAt = habitSuccessRepository.existsByWeekHabitAndSuccessAt(weekHabit, date);
-
-        if (Boolean.FALSE.equals(existsByWeekHabitAndSuccessAt)) {
-
-            HabitSuccess habitSuccess = HabitSuccess.builder()
-                    .successAt(date)
-                    .weekHabit(weekHabit)
-                    .build();
-
-            habitSuccessRepository.save(habitSuccess);
+        if (LocalDate.now().equals(weekHabit.getLastSuccessAt())) {
+            throw AlreadyCheck.EXCEPTION;
         }
+
+        weekHabit.check();
     }
 
     @Transactional
@@ -99,7 +89,7 @@ public class HabitService {
         LocalDate startAt = getStartAtAndEndAt(Date.START_AT);
         LocalDate endAt = getStartAtAndEndAt(Date.END_AT);
 
-        if (weekHabitStatusRepository.existsByUserAndStartAtBetween(user, startAt, endAt)) {
+        if (weekHabitStatusRepository.existsByUserAndStartAtAndEndAt(user, startAt, endAt)) {
             throw ExistsHabitStatus.EXCEPTION;
         }
 
@@ -116,15 +106,12 @@ public class HabitService {
     public GetWeekHabitResponse getWeekHabit() {
         User user = userUtil.getCurrentUser();
 
-        List<WeekHabitElement> weekHabits = weekHabitRepository.findAllByUserAndStartAtBetween(
-                        user,
-                        getStartAtAndEndAt(Date.START_AT),
-                        getStartAtAndEndAt(Date.END_AT)
+        List<WeekHabitElement> weekHabits = weekHabitRepository.findAllByUserAndStartAtAndEndAt(
+                        user, getStartAtAndEndAt(Date.START_AT), getStartAtAndEndAt(Date.END_AT)
                 )
                 .stream()
                 .map(weekHabit -> {
-                            Integer successCount = habitSuccessRepository
-                                    .countByWeekHabitAndSuccessAt(weekHabit, LocalDate.now());
+                            Integer successCount = weekHabit.getSuccessCount();
                             Boolean status = successCount == 0 ? Boolean.FALSE : Boolean.TRUE;
 
                             return WeekHabitElement.builder()
@@ -140,40 +127,57 @@ public class HabitService {
     }
 
     @Transactional(readOnly = true)
-    public HabitResponse getAllHabit() {
+    public HabitResponse getAllHabit(LocalDate date) {
         User user = userUtil.getCurrentUser();
 
-        List<HabitElement> habitList = weekHabitRepository.findAllByUser(user)
+        List<HabitElement> habitList = weekHabitRepository.getAllWeekHabit(user, date)
                 .stream()
-                .map(weekHabit -> HabitElement.builder()
-                        .id(weekHabit.getId())
-                        .startAt(weekHabit.getStartAt())
-                        .endAt(weekHabit.getEndAt())
-                        .level(
-                                weekHabitStatusRepository.countByUserAndStartAtBetween(
-                                        user, weekHabit.getStartAt(), weekHabit.getEndAt()
-                                )
-                        )
+                .map(weekHabitVO -> HabitElement.builder()
+                        .startAt(weekHabitVO.getStartAt())
+                        .endAt(weekHabitVO.getEndAt())
+                        .level(getLevel(user, weekHabitVO.getStartAt(), weekHabitVO.getEndAt()))
                         .build())
                 .toList();
 
         return new HabitResponse(habitList);
     }
 
+    private Integer getLevel(User user, LocalDate startAt, LocalDate endAt) {
+        int result = 0;
+
+        int successCount = weekHabitRepository
+                .findAllByUserAndStartAtAndEndAt(user, startAt, endAt)
+                .stream()
+                .mapToInt(WeekHabit::getSuccessCount)
+                .sum();
+
+        if (successCount >= 1 && successCount <= 4) {
+            result = 1;
+        } else if (successCount >= 5 && successCount <= 10) {
+            result = 2;
+        } else if (successCount >= 11 && successCount <= 20) {
+            result = 3;
+        } else if (successCount >= 21 && successCount <= 35) {
+            result = 4;
+        }
+
+        return result;
+    }
+
     @Transactional(readOnly = true)
     public GetArchiveWeekHabitResponse getArchiveWeekHabit(LocalDate startAt, LocalDate endAt) {
         User user = userUtil.getCurrentUser();
 
-        WeekHabitStatus status = weekHabitStatusRepository.findByUserAndStartAtBetween(user, startAt, endAt)
+        WeekHabitStatus status = weekHabitStatusRepository.findByUserAndStartAtAndEndAt(user, startAt, endAt)
                 .orElseGet(() -> WeekHabitStatus.builder().status(0).build());
 
-        List<ArchiveWeekHabitElement> archiveWeekHabits = weekHabitRepository.findAllByUserAndStartAtBetween(
+        List<ArchiveWeekHabitElement> archiveWeekHabits = weekHabitRepository.findAllByUserAndStartAtAndEndAt(
                         user, startAt, endAt
                 )
                 .stream()
                 .map(weekHabit -> ArchiveWeekHabitElement.builder()
                         .title(weekHabit.getContent())
-                        .count(habitSuccessRepository.countHabitSuccessByWeekHabit(weekHabit))
+                        .count(weekHabit.getSuccessCount())
                         .build())
                 .toList();
 

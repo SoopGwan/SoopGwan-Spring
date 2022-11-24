@@ -10,9 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface WeekHabitStatusRepository extends JpaRepository<WeekHabitStatus, Long> {
-    Optional<WeekHabitStatus> findByUserAndStartAtBetween(User user, LocalDate startAt, LocalDate endAt);
+    Optional<WeekHabitStatus> findByUserAndStartAtAndEndAt(User user, LocalDate startAt, LocalDate endAt);
 
-    Integer countByUserAndStartAtBetween(User user, LocalDate startAt, LocalDate endAt);
-
-    boolean existsByUserAndStartAtBetween(User user, LocalDate startAt, LocalDate endAt);
+    boolean existsByUserAndStartAtAndEndAt(User user, LocalDate startAt, LocalDate endAt);
 }

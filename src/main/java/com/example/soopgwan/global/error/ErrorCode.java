@@ -26,6 +26,7 @@ public enum ErrorCode {
     EXISTS_HABIT_STATUS(409, "이미 평가한 습관이 존재함"),
 
     USER_EXISTS(409, "유저 아이디 중복"),
+    ALREADY_CHECK(409, "이미 체크함"),
 
     TOO_MANY_SEND_CODE(429, "너무 많은 인증코드 요청"),
 

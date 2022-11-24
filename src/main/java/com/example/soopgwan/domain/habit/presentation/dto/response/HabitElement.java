@@ -9,7 +9,6 @@ import java.time.LocalDate;
 @Builder
 public class HabitElement {
 
-    private final Long id;
     private final LocalDate startAt;
     private final LocalDate endAt;
     private final Integer level;

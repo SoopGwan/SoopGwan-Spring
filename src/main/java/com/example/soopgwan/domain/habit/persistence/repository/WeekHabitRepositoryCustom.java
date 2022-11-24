@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface WeekHabitRepositoryCustom {
 
-    List<WeekHabitVO> getAllWeekHabit(User user);
+    List<WeekHabitVO> getAllWeekHabit(User user, LocalDate date);
 }

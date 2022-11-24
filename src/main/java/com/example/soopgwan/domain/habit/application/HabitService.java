@@ -127,10 +127,10 @@ public class HabitService {
     }
 
     @Transactional(readOnly = true)
-    public HabitResponse getAllHabit() {
+    public HabitResponse getAllHabit(LocalDate date) {
         User user = userUtil.getCurrentUser();
 
-        List<HabitElement> habitList = weekHabitRepository.getAllWeekHabit(user)
+        List<HabitElement> habitList = weekHabitRepository.getAllWeekHabit(user, date)
                 .stream()
                 .map(weekHabitVO -> HabitElement.builder()
                         .startAt(weekHabitVO.getStartAt())

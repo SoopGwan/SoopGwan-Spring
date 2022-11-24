@@ -17,7 +17,9 @@ public class WeekHabitRepositoryCustomImpl implements WeekHabitRepositoryCustom 
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<WeekHabitVO> getAllWeekHabit(User user) {
+    public List<WeekHabitVO> getAllWeekHabit(User user, LocalDate date) {
+        LocalDate now = LocalDate.now();
+
         return queryFactory
                 .select(
                         new QWeekHabitVO(
@@ -25,7 +27,10 @@ public class WeekHabitRepositoryCustomImpl implements WeekHabitRepositoryCustom 
                         )
                 )
                 .from(weekHabit)
-                .where(weekHabit.user.eq(user))
+                .where(
+                        weekHabit.user.eq(user),
+                        weekHabit.endAt.between(date, now)
+                )
                 .groupBy(weekHabit.startAt, weekHabit.endAt)
                 .orderBy(weekHabit.startAt.desc())
                 .fetch();

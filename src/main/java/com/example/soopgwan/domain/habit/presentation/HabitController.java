@@ -58,10 +58,9 @@ public class HabitController {
         return habitService.getWeekHabit();
     }
 
-    // TODO 추후에 날짜 받아서 특정 값만 가져오기
     @GetMapping
     public HabitResponse getAllHabit(
-            @RequestParam(name = "date", required = false) @DateTimeFormat(pattern = "yyyy") LocalDate date
+            @RequestParam(name = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date
     ) {
         return habitService.getAllHabit(date);
     }

@@ -18,6 +18,8 @@ public class WeekHabitRepositoryCustomImpl implements WeekHabitRepositoryCustom 
 
     @Override
     public List<WeekHabitVO> getAllWeekHabit(User user, LocalDate date) {
+        LocalDate now = LocalDate.now();
+
         return queryFactory
                 .select(
                         new QWeekHabitVO(
@@ -28,7 +30,8 @@ public class WeekHabitRepositoryCustomImpl implements WeekHabitRepositoryCustom 
                 )
                 .from(weekHabit)
                 .where(
-                        weekHabit.user.eq(user)
+                        weekHabit.user.eq(user),
+                        weekHabit.startAt.between(date, now)
                 )
                 .groupBy(weekHabit.startAt, weekHabit.endAt)
                 .orderBy(weekHabit.startAt.desc())

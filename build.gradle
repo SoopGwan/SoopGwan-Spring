@@ -40,6 +40,13 @@ dependencies {
 
     // coolsms
     implementation 'net.nurigo:javaSDK:2.2'
+
+    // QueryDSL
+    implementation 'com.querydsl:querydsl-jpa'
+    annotationProcessor(
+            "javax.persistence:javax.persistence-api",
+            "javax.annotation:javax.annotation-api",
+            "com.querydsl:querydsl-apt:5.0.0:jpa")
 }
 
 tasks.named('test') {

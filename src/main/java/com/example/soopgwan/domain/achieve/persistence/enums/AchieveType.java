@@ -1,4 +1,4 @@
-package com.example.soopgwan.domain.achieve.enums;
+package com.example.soopgwan.domain.achieve.persistence.enums;
 
 import com.example.soopgwan.domain.achieve.achieves.*;
 import com.example.soopgwan.domain.achieve.exception.AchieveTypeNotFoundException;

@@ -1,6 +1,6 @@
 package com.example.soopgwan.domain.achieve.persistence;
 
-import com.example.soopgwan.domain.achieve.enums.AchieveType;
+import com.example.soopgwan.domain.achieve.persistence.enums.AchieveType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

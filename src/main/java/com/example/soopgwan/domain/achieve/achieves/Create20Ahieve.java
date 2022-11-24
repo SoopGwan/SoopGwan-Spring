@@ -1,6 +1,6 @@
 package com.example.soopgwan.domain.achieve.achieves;
 
-import com.example.soopgwan.domain.achieve.enums.AchieveType;
+import com.example.soopgwan.domain.achieve.persistence.enums.AchieveType;
 import com.example.soopgwan.domain.achieve.exception.AchieveNotFoundException;
 import com.example.soopgwan.domain.achieve.persistence.Achieve;
 import com.example.soopgwan.domain.achieve.persistence.repository.AchieveRepository;

@@ -21,17 +21,15 @@ public class CustomAchieveRepositoryImpl implements CustomAchieveRepository {
         return query
                 .select(new QDefaultAchieveVO(
                         achieve.id,
-                        achieve.rarityType,
-                        achieve.productType,
                         achieve.code,
-                        achieve.content
+                        achieve.rarityType,
+                        achieve.productType
                 ))
                 .from(achieve)
                 .leftJoin(achieveSuccess)
                 .on(achieveSuccess.achieve.eq(achieve))
                 .leftJoin(user)
-                .on(achieveSuccess.user.eq(user),
-                        user.id.eq(userId))
+                .on(achieveSuccess.user.eq(user), user.id.eq(userId))
                 .where(user.id.isNull())
                 .fetch();
     }

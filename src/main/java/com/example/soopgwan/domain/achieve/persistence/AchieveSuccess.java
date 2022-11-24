@@ -35,7 +35,4 @@ public class AchieveSuccess {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "achieve_id", nullable = false)
     private Achieve achieve;
-
-    @Column(columnDefinition = "DATE", nullable = false)
-    private LocalDate date;
 }

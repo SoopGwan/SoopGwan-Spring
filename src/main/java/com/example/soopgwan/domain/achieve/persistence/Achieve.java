@@ -1,17 +1,13 @@
 package com.example.soopgwan.domain.achieve.persistence;
 
+import com.example.soopgwan.domain.achieve.persistence.enums.AchieveType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,8 +22,18 @@ public class Achieve {
     private Long id;
 
     @Column(columnDefinition = "VARCHAR(200)", nullable = false)
-    private String unlockCondition;
+    private String content;
 
-    @Column(columnDefinition = "VARCHAR(10)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
+    private String rarityType;
+
+    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
+    private String productType;
+
+    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     private String title;
+
+    @Enumerated(EnumType.STRING)
+    @Column(unique = true, nullable = false, columnDefinition = "VARCHAR(10)")
+    private AchieveType code;
 }

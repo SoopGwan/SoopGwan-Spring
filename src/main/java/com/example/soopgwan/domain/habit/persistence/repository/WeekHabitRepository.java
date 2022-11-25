@@ -3,6 +3,7 @@ package com.example.soopgwan.domain.habit.persistence.repository;
 import com.example.soopgwan.domain.habit.persistence.WeekHabit;
 import com.example.soopgwan.domain.user.persistence.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -13,4 +14,10 @@ public interface WeekHabitRepository extends JpaRepository<WeekHabit, Long>, Wee
 
     List<WeekHabit> findAllByUserAndStartAtAndEndAt(User user, LocalDate startAt, LocalDate endAt);
 
+    List<WeekHabit> findAllByUser(User user);
+
+    @Query("SELECT SUM(w.successCount) FROM WeekHabit w WHERE w.user = :user")
+    Long sumSuccessCountAllByUser(User user);
+
+    Long countAllByUser(User user);
 }

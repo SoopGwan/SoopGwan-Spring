@@ -23,8 +23,10 @@ public class CustomAchieveRepositoryImpl implements CustomAchieveRepository {
                         achieve.id,
                         achieve.code,
                         achieve.rarityType,
-                        achieve.productType
-                ))
+                        achieve.productType,
+                        achieve.title,
+                        achieve.content
+                        ))
                 .from(achieve)
                 .leftJoin(achieveSuccess)
                 .on(achieveSuccess.achieve.eq(achieve))

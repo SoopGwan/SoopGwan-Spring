@@ -1,5 +1,6 @@
 package com.example.soopgwan.domain.achieve.achieves;
 
+import com.example.soopgwan.domain.achieve.achieves.utils.AchieveUtils;
 import com.example.soopgwan.domain.achieve.exception.AchieveNotFoundException;
 import com.example.soopgwan.domain.achieve.persistence.Achieve;
 import com.example.soopgwan.domain.achieve.persistence.enums.AchieveType;
@@ -13,13 +14,12 @@ import lombok.RequiredArgsConstructor;
 public class Complete15Achieve implements BaseAchieve {
 
     private final WeekHabitRepository weekHabitRepository;
-    private final AchieveRepository achieveRepository;
+    private final AchieveUtils achieveUtils;
     private final UserUtil userUtil;
 
     @Override
     public Achieve getAchieveEntity() {
-        return achieveRepository.findByCode(AchieveType.COMPLETE_15)
-                .orElseThrow(() -> AchieveNotFoundException.EXCEPTION);
+        return achieveUtils.findByCode(AchieveType.COMPLETE_15);
     }
 
     @Override

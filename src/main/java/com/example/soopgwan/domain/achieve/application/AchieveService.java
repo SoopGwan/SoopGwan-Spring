@@ -1,6 +1,7 @@
 package com.example.soopgwan.domain.achieve.application;
 
 import com.example.soopgwan.domain.achieve.achieves.BaseAchieve;
+import com.example.soopgwan.domain.achieve.achieves.utils.AchieveUtils;
 import com.example.soopgwan.domain.achieve.persistence.enums.AchieveType;
 import com.example.soopgwan.domain.achieve.persistence.Achieve;
 import com.example.soopgwan.domain.achieve.persistence.AchieveSuccess;
@@ -25,6 +26,7 @@ public class AchieveService {
     private final AchieveSuccessRepository achieveSuccessRepository;
     private final AchieveRepository achieveRepository;
     private final WeekHabitRepository weekHabitRepository;
+    private final AchieveUtils achieveUtils;
 
     @Transactional
     public MyAchieveListResponse execute() {
@@ -34,7 +36,7 @@ public class AchieveService {
 
         for (DefaultAchieveVO vo : claimAchieveList) {
             BaseAchieve baseAchieve = AchieveType.getAchieve(
-                    weekHabitRepository, userUtil, vo.getCode(), achieveRepository
+                    weekHabitRepository, userUtil, vo.getCode(), achieveUtils
             );
             Achieve achieve = baseAchieve.getAchieveEntity();
             if (baseAchieve.isGoalSuccess()) {

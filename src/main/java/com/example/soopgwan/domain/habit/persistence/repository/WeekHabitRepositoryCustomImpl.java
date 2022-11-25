@@ -23,13 +23,15 @@ public class WeekHabitRepositoryCustomImpl implements WeekHabitRepositoryCustom 
         return queryFactory
                 .select(
                         new QWeekHabitVO(
-                                weekHabit.startAt, weekHabit.endAt
+                                weekHabit.startAt,
+                                weekHabit.endAt,
+                                weekHabit.successCount.count()
                         )
                 )
                 .from(weekHabit)
                 .where(
                         weekHabit.user.eq(user),
-                        weekHabit.endAt.between(date, now)
+                        weekHabit.startAt.between(date, now)
                 )
                 .groupBy(weekHabit.startAt, weekHabit.endAt)
                 .orderBy(weekHabit.startAt.desc())

@@ -30,6 +30,10 @@ public enum AchieveType {
             case CREATE_5 -> new Create5Achieve(weekHabitRepository, achieveRepository, userUtil);
             case CREATE_15 -> new Create15Achieve(weekHabitRepository, achieveRepository, userUtil);
             case CREATE_20 -> new Create20Ahieve(weekHabitRepository, achieveRepository, userUtil);
+            case COMPLETE_5 -> new Complete5Achieve(weekHabitRepository, achieveRepository, userUtil);
+            case COMPLETE_10 -> new Complete10Achieve(weekHabitRepository, achieveRepository, userUtil);
+            case COMPLETE_15 -> new Complete15Achieve(weekHabitRepository, achieveRepository, userUtil);
+            case COMPLETE_25 -> new Complete25Achieve(weekHabitRepository, achieveRepository, userUtil);
             default -> throw AchieveTypeNotFoundException.EXCEPTION;
         };
     }

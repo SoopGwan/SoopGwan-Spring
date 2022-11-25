@@ -7,15 +7,19 @@ import lombok.Getter;
 @Getter
 public class DefaultAchieveVO {
     private final Long achieveId;
-    private final AchieveType code;
+    private final String content;
     private final String rarityType;
     private final String productType;
+    private final String title;
+    private final AchieveType code;
 
     @QueryProjection
-    public DefaultAchieveVO(Long achieveId, AchieveType code, String rarityType, String productType) {
+    public DefaultAchieveVO(Long achieveId, AchieveType code, String rarityType, String productType, String title, String content) {
         this.achieveId = achieveId;
         this.code = code;
         this.rarityType = rarityType;
         this.productType = productType;
+        this.title = title;
+        this.content = content;
     }
 }

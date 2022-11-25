@@ -4,10 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
-
 @Getter
+@Builder
 @AllArgsConstructor
-public class MyAchieveListResponse {
-    private final List<MyAchieveElement> myAchieveList;
+public class MyAchieveElement {
+    private final String title;
+    private final String rarityType;
+    private final String productType;
+    private final String content;
 }

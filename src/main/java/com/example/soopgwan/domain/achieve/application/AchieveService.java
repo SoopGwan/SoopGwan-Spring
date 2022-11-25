@@ -7,8 +7,8 @@ import com.example.soopgwan.domain.achieve.persistence.AchieveSuccess;
 import com.example.soopgwan.domain.achieve.persistence.repository.AchieveRepository;
 import com.example.soopgwan.domain.achieve.persistence.repository.AchieveSuccessRepository;
 import com.example.soopgwan.domain.achieve.persistence.repository.vo.DefaultAchieveVO;
+import com.example.soopgwan.domain.achieve.presentation.dto.response.MyAchieveElement;
 import com.example.soopgwan.domain.achieve.presentation.dto.response.MyAchieveListResponse;
-import com.example.soopgwan.domain.achieve.presentation.dto.response.MyAchieveListResponse.MyAchieve;
 import com.example.soopgwan.domain.habit.persistence.repository.WeekHabitRepository;
 import com.example.soopgwan.domain.user.persistence.User;
 import com.example.soopgwan.global.util.UserUtil;
@@ -47,15 +47,17 @@ public class AchieveService {
             }
         }
 
-        return new MyAchieveListResponse(achieveSuccessRepository.findAllByUserId(user.getId())
+        List<MyAchieveElement> response = achieveSuccessRepository.findAllByUserId(user.getId())
                 .stream()
                 .map(AchieveSuccess::getAchieve)
-                .map(achieve -> MyAchieve.builder()
+                .map(achieve -> MyAchieveElement.builder()
                         .title(achieve.getTitle())
                         .productType(achieve.getProductType())
                         .rarityType(achieve.getRarityType())
                         .content(achieve.getContent())
                         .build())
-                .toList());
+                .toList();
+
+        return new MyAchieveListResponse(response);
     }
 }

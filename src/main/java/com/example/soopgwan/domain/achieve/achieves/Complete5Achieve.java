@@ -9,8 +9,6 @@ import com.example.soopgwan.domain.user.persistence.User;
 import com.example.soopgwan.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 
-import java.util.stream.IntStream;
-
 @RequiredArgsConstructor
 public class Complete5Achieve implements BaseAchieve {
 

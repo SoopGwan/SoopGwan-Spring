@@ -18,14 +18,13 @@ public class Create5Achieve implements BaseAchieve {
 
     @Override
     public Achieve getAchieveEntity() {
-        return achieveRepository.findByCode(AchieveType.CREATE_1)
+        return achieveRepository.findByCode(AchieveType.CREATE_5)
                 .orElseThrow(() -> AchieveNotFoundException.EXCEPTION);
     }
 
     @Override
     public boolean isGoalSuccess() {
         User user = userUtil.getCurrentUser();
-
         return weekHabitRepository.countAllByUser(user) >= 5;
     }
 }

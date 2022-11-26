@@ -44,7 +44,8 @@ jobs:
           registry: ${{ steps.ecr.outputs.registry }}
           tags: latest
           buildargs: |
-            DB_URL=${{ secrets.DB_URL }}
+            DB_HOST=${{ secrets.DB_HOST }}
+            DB_NAME=${{ secrets.DB_NAME }}
             DB_USERNAME=${{ secrets.DB_USERNAME }}
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             REDIS_HOST=${{ secrets.REDIS_HOST }}

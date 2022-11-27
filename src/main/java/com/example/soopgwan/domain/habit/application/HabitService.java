@@ -92,7 +92,7 @@ public class HabitService {
                         .user(user)
                         .build());
 
-        if (status.getStatus() == 0) {
+        if (status.getStatus() != 0) {
             throw ExistsHabitStatus.EXCEPTION;
         }
 

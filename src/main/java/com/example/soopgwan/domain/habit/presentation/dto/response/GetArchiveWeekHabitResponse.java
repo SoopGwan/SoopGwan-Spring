@@ -11,4 +11,5 @@ public class GetArchiveWeekHabitResponse {
 
     private final List<ArchiveWeekHabitElement> habits;
     private final Integer status;
+    private final Long id;
 }

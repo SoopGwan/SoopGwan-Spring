@@ -11,12 +11,7 @@ import com.example.soopgwan.domain.habit.persistence.repository.WeekHabitReposit
 import com.example.soopgwan.domain.habit.persistence.repository.WeekHabitStatusRepository;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CheckWeekHabitRequest;
 import com.example.soopgwan.domain.habit.presentation.dto.request.CreateHabitRequest;
-import com.example.soopgwan.domain.habit.presentation.dto.response.ArchiveWeekHabitElement;
-import com.example.soopgwan.domain.habit.presentation.dto.response.GetArchiveWeekHabitResponse;
-import com.example.soopgwan.domain.habit.presentation.dto.response.GetWeekHabitResponse;
-import com.example.soopgwan.domain.habit.presentation.dto.response.HabitElement;
-import com.example.soopgwan.domain.habit.presentation.dto.response.HabitResponse;
-import com.example.soopgwan.domain.habit.presentation.dto.response.WeekHabitElement;
+import com.example.soopgwan.domain.habit.presentation.dto.response.*;
 import com.example.soopgwan.domain.user.persistence.User;
 import com.example.soopgwan.global.util.CalenderUtil;
 import com.example.soopgwan.global.util.UserUtil;
@@ -24,9 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -177,6 +170,6 @@ public class HabitService {
                         .build())
                 .toList();
 
-        return new GetArchiveWeekHabitResponse(archiveWeekHabits, status.getStatus());
+        return new GetArchiveWeekHabitResponse(archiveWeekHabits, status.getStatus(), status.getId());
     }
 }

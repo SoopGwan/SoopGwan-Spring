@@ -96,6 +96,7 @@ public class HabitService {
             throw ExistsHabitStatus.EXCEPTION;
         }
 
+        status.setStatus(request.getStatus());
         weekHabitStatusRepository.save(status);
     }
 

@@ -34,6 +34,6 @@ public class Achieve {
     private String title;
 
     @Enumerated(EnumType.STRING)
-    @Column(unique = true, nullable = false, columnDefinition = "VARCHAR(10)")
+    @Column(unique = true, nullable = false, columnDefinition = "VARCHAR(11)")
     private AchieveType code;
 }

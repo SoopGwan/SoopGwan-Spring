@@ -84,16 +84,18 @@ public class HabitService {
         LocalDate startAt = calenderUtil.getStartAtAndEndAt(Date.START_AT);
         LocalDate endAt = calenderUtil.getStartAtAndEndAt(Date.END_AT);
 
-        if (weekHabitStatusRepository.existsByUserAndStartAtAndEndAt(user, startAt, endAt)) {
+        WeekHabitStatus status = weekHabitStatusRepository.findByUserAndStartAtAndEndAt(user, startAt, endAt)
+                .orElseGet(() -> WeekHabitStatus.builder()
+                        .startAt(startAt)
+                        .endAt(endAt)
+                        .status(request.getStatus())
+                        .user(user)
+                        .build());
+
+        if (status.getStatus() == 0) {
             throw ExistsHabitStatus.EXCEPTION;
         }
 
-        WeekHabitStatus status = WeekHabitStatus.builder()
-                .startAt(startAt)
-                .endAt(endAt)
-                .status(request.getStatus())
-                .user(user)
-                .build();
         weekHabitStatusRepository.save(status);
     }
 

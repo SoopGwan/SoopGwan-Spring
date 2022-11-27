@@ -14,8 +14,6 @@ public interface WeekHabitRepository extends JpaRepository<WeekHabit, Long>, Wee
 
     List<WeekHabit> findAllByUserAndStartAtAndEndAt(User user, LocalDate startAt, LocalDate endAt);
 
-    List<WeekHabit> findAllByUser(User user);
-
     @Query("SELECT SUM(w.successCount) FROM WeekHabit w WHERE w.user = :user")
     Long sumSuccessCountAllByUser(User user);
 

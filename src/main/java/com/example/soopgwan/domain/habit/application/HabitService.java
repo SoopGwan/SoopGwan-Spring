@@ -182,11 +182,10 @@ public class HabitService {
     private LocalDate getStartAtAndEndAt(Date date) {
         Calendar calendar = Calendar.getInstance();
 
-        if (Date.START_AT.equals(date)) {
-            calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        } else {
-            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-            calendar.add(Calendar.DATE, 7);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+
+        if (Date.END_AT.equals(date)) {
+            calendar.add(Calendar.DATE, 6);
         }
 
         String dateFormat = formatter.format(calendar.getTime()).replace(".", "-");

@@ -1,5 +1,8 @@
 package com.example.soopgwan.domain.user.application;
 
+import com.example.soopgwan.domain.habit.application.enums.Date;
+import com.example.soopgwan.domain.habit.persistence.WeekHabitStatus;
+import com.example.soopgwan.domain.habit.persistence.repository.WeekHabitStatusRepository;
 import com.example.soopgwan.domain.user.exception.InvalidCodeType;
 import com.example.soopgwan.domain.user.exception.PasswordDifferent;
 import com.example.soopgwan.domain.user.exception.PasswordMisMatch;
@@ -21,6 +24,7 @@ import com.example.soopgwan.domain.user.presentation.dto.request.VerifyCodeReque
 import com.example.soopgwan.domain.user.presentation.dto.response.ResetPasswordResponse;
 import com.example.soopgwan.domain.user.presentation.dto.response.TokenResponse;
 import com.example.soopgwan.global.security.jwt.JwtTokenProvider;
+import com.example.soopgwan.global.util.CalenderUtil;
 import com.example.soopgwan.global.util.RandomPasswordUtil;
 import com.example.soopgwan.global.util.UserUtil;
 import com.example.soopgwan.infrastructure.utils.MessageUtil;
@@ -34,12 +38,6 @@ import javax.transaction.Transactional;
 @Service
 public class UserService {
 
-    private static final char[] charSet = new char[]{
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-            '!', '@', '#', '$', '%', '^', '&'};
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
@@ -47,7 +45,10 @@ public class UserService {
     private final VerifyCodeRepository verifyCodeRepository;
     private final MessageUtil messageUtil;
     private final RandomPasswordUtil randomPasswordUtil;
+    private final CalenderUtil calenderUtil;
+    private final WeekHabitStatusRepository weekHabitStatusRepository;
 
+    @Transactional
     public TokenResponse signUp(SignUpRequset request) {
         if (userRepository.existsByAccountId(request.getAccountId())) {
             throw UserExists.EXCEPTION;
@@ -59,6 +60,13 @@ public class UserService {
                 .phoneNumber(request.getPhoneNumber())
                 .build();
         userRepository.save(user);
+
+        WeekHabitStatus weekHabitStatus = WeekHabitStatus.builder()
+                .startAt(calenderUtil.getStartAtAndEndAt(Date.START_AT))
+                .startAt(calenderUtil.getStartAtAndEndAt(Date.END_AT))
+                .user(user)
+                .build();
+        weekHabitStatusRepository.save(weekHabitStatus);
 
         String accessToken = jwtTokenProvider.generateAccessToken(user.getAccountId());
         String refreshToken = jwtTokenProvider.generateRefreshToken(user.getAccountId());

@@ -18,6 +18,7 @@ import com.example.soopgwan.domain.habit.presentation.dto.response.HabitElement;
 import com.example.soopgwan.domain.habit.presentation.dto.response.HabitResponse;
 import com.example.soopgwan.domain.habit.presentation.dto.response.WeekHabitElement;
 import com.example.soopgwan.domain.user.persistence.User;
+import com.example.soopgwan.global.util.CalenderUtil;
 import com.example.soopgwan.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class HabitService {
     private final WeekHabitRepository weekHabitRepository;
     private final UserUtil userUtil;
     private final WeekHabitStatusRepository weekHabitStatusRepository;
-    private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
+    private final CalenderUtil calenderUtil;
 
     @Transactional
     public void createHabit(CreateHabitRequest request) {
@@ -43,8 +44,8 @@ public class HabitService {
 
         WeekHabit weekHabit = WeekHabit.builder()
                 .content(request.getContent())
-                .startAt(getStartAtAndEndAt(Date.START_AT))
-                .endAt(getStartAtAndEndAt(Date.END_AT))
+                .startAt(calenderUtil.getStartAtAndEndAt(Date.START_AT))
+                .endAt(calenderUtil.getStartAtAndEndAt(Date.END_AT))
                 .successCount(0)
                 .user(user)
                 .build();
@@ -87,8 +88,8 @@ public class HabitService {
     @Transactional
     public void checkWeekHabit(CheckWeekHabitRequest request) {
         User user = userUtil.getCurrentUser();
-        LocalDate startAt = getStartAtAndEndAt(Date.START_AT);
-        LocalDate endAt = getStartAtAndEndAt(Date.END_AT);
+        LocalDate startAt = calenderUtil.getStartAtAndEndAt(Date.START_AT);
+        LocalDate endAt = calenderUtil.getStartAtAndEndAt(Date.END_AT);
 
         if (weekHabitStatusRepository.existsByUserAndStartAtAndEndAt(user, startAt, endAt)) {
             throw ExistsHabitStatus.EXCEPTION;
@@ -108,7 +109,7 @@ public class HabitService {
         User user = userUtil.getCurrentUser();
 
         List<WeekHabitElement> weekHabits = weekHabitRepository.findAllByUserAndStartAtAndEndAt(
-                        user, getStartAtAndEndAt(Date.START_AT), getStartAtAndEndAt(Date.END_AT)
+                        user, calenderUtil.getStartAtAndEndAt(Date.START_AT), calenderUtil.getStartAtAndEndAt(Date.END_AT)
                 )
                 .stream()
                 .map(weekHabit -> {
@@ -177,19 +178,5 @@ public class HabitService {
                 .toList();
 
         return new GetArchiveWeekHabitResponse(archiveWeekHabits, status.getStatus());
-    }
-
-    private LocalDate getStartAtAndEndAt(Date date) {
-        Calendar calendar = Calendar.getInstance();
-
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-
-        if (Date.END_AT.equals(date)) {
-            calendar.add(Calendar.DATE, 6);
-        }
-
-        String dateFormat = formatter.format(calendar.getTime()).replace(".", "-");
-
-        return LocalDate.parse(dateFormat);
     }
 }

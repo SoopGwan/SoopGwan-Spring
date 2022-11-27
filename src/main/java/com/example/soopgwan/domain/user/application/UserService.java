@@ -63,7 +63,8 @@ public class UserService {
 
         WeekHabitStatus weekHabitStatus = WeekHabitStatus.builder()
                 .startAt(calenderUtil.getStartAtAndEndAt(Date.START_AT))
-                .startAt(calenderUtil.getStartAtAndEndAt(Date.END_AT))
+                .endAt(calenderUtil.getStartAtAndEndAt(Date.END_AT))
+                .status(0)
                 .user(user)
                 .build();
         weekHabitStatusRepository.save(weekHabitStatus);

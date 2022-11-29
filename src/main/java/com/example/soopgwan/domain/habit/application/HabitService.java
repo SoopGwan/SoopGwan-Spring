@@ -108,17 +108,12 @@ public class HabitService {
                         user, calenderUtil.getStartAtAndEndAt(Date.START_AT), calenderUtil.getStartAtAndEndAt(Date.END_AT)
                 )
                 .stream()
-                .map(weekHabit -> {
-                            Integer successCount = weekHabit.getSuccessCount();
-                            Boolean status = successCount == 0 ? Boolean.FALSE : Boolean.TRUE;
-
-                            return WeekHabitElement.builder()
-                                    .id(weekHabit.getId())
-                                    .content(weekHabit.getContent())
-                                    .successCount(successCount)
-                                    .successStatus(status)
-                                    .build();
-                        }
+                .map(weekHabit -> WeekHabitElement.builder()
+                        .id(weekHabit.getId())
+                        .content(weekHabit.getContent())
+                        .successCount(weekHabit.getSuccessCount())
+                        .successStatus(LocalDate.now().equals(weekHabit.getLastSuccessAt()))
+                        .build()
                 ).toList();
 
         return new GetWeekHabitResponse(weekHabits);
